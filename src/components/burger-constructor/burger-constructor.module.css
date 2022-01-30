@@ -1,16 +1,18 @@
 .total {
+    composes: pr-10 from global;
     display: flex;
     flex-direction: row;
-    align-content: center;
     vertical-align: middle;
+  
 }
 
 .checkout {
-    composes: pt-10 from global;
+    composes: pt-10 pr-10 from global;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: end;
+    width: 100%;
 }
 
 .currencyicon {
@@ -18,7 +20,7 @@
 }
 
 .scrollablecontent {
-    composes: custom-scroll from global;
+    composes: custom-scroll pr-1 from global;
     height: 30vh;
     overflow-x: hidden;
     overflow-y: scroll

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 function BurgerConstructor() {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
         <ConstructorElement
           type="top"
           isLocked={true}
