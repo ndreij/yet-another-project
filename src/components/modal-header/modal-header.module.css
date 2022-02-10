@@ -1,0 +1,4 @@
+.modalheader {
+    display: flex;
+    justify-content: space-between;
+}

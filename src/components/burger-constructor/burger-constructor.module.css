@@ -1,9 +1,15 @@
+.constructrowrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center
+}
+
 .total {
     composes: pr-10 from global;
     display: flex;
     flex-direction: row;
     vertical-align: middle;
-  
 }
 
 .checkout {
@@ -20,8 +26,32 @@
 }
 
 .scrollablecontent {
-    composes: custom-scroll pr-1 from global;
+    composes: custom-scroll pr-1 pt-1 pb-1 from global;
     height: 30vh;
     overflow-x: hidden;
-    overflow-y: scroll
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: relative
+}
+
+.drag {
+    position: absolute;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.listitem {
+    composes: pt-1 pb-1 from global;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
