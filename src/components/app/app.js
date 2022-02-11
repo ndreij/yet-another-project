@@ -11,9 +11,9 @@ function App() {
 
   const url = "https://norma.nomoreparties.space/api/ingredients"
 
-  let [data, setData] = React.useState([])
+  const [data, setData] = React.useState([])
 
-  let [modalState, setModalState] = React.useState({ visible: false, header: '', content: 'ingredient', item: {} })
+  const [modalState, setModalState] = React.useState({ visible: false, header: '', content: 'ingredient', item: {} })
 
   React.useEffect(() => {
     fetch(url)

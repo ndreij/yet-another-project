@@ -13,7 +13,7 @@ const modalRoot = document.getElementById("react-modals");
 function Modal(props) {
 
   const handleCloseByEsc = (event) => {
-    if (event.keyCode === 27) {
+    if (event.key === 'Escape') {
       return props.setModalState({ visible: false })
     }
   }
@@ -26,8 +26,7 @@ function Modal(props) {
   }, [handleCloseByEsc]);
 
   return ReactDOM.createPortal(
-    <>
-      <div id="modal">
+      <>
         <ModalOverlay setModalState={props.setModalState} />
         <div className={styles.modal}>
           <div className={styles.modalcontent} >
@@ -35,15 +34,14 @@ function Modal(props) {
             {props.children}
           </div>
         </div>
-      </div>
-    </>,
+      </>,
     modalRoot
   );
 }
 
 Modal.propTypes = {
   setModalState: PropTypes.func.isRequired,
-  header: PropTypes.string.isRequired,
+  header: PropTypes.string,
 }
 
 export default Modal

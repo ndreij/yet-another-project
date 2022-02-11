@@ -2,9 +2,10 @@ import styles from './ingredient-details.module.css'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import ingredientTypes from '../../utils/types.js'
 
 function IngredientDetails(props) {
-    console.log(props.item)
+
     return (
         <div>
             <img className="pt-10" src={props.item.image_large} alt={props.item.name} />
@@ -57,7 +58,7 @@ function IngredientDetails(props) {
                     <p className={styles.details}>
                         {props.item.carbohydrates}
                     </p>
-                    
+
                 </div>
             </div>
 
@@ -66,13 +67,7 @@ function IngredientDetails(props) {
 }
 
 IngredientDetails.propTypes = {
-    item: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        image_large: PropTypes.string.isRequired,
-        proteins: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-    }).isRequired
+    item: ingredientTypes.isRequired
 };
 
 export default IngredientDetails

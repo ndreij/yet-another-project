@@ -6,6 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import React from 'react';
 import PropTypes from 'prop-types';
+import ingredientTypes from '../../utils/types.js'
 
 
 function IngredientCard(props) {
@@ -77,18 +78,12 @@ function BurgerIngredients(props) {
 }
 
 IngredientCard.propTypes = {
-    item: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        type: PropTypes.string.isRequired,
-    }).isRequired
+    item: ingredientTypes.isRequired
 };
 
 BurgerIngredients.propTypes = {
     setModalState: PropTypes.func.isRequired,
-    data: PropTypes.arrayOf(PropTypes.shape({
-        _id: PropTypes.number.isRequired
-    })).isRequired
+    data: PropTypes.arrayOf(ingredientTypes).isRequired
 }
 
 export default BurgerIngredients

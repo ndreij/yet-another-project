@@ -9,11 +9,11 @@
 .ingredients {
     composes: pr-10 mt-10 from global;
     width: 50%;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .constructor {
     composes: mt-25 ml-4 mr-4 from global;
     width: 50%;
-    overflow-y:scroll;
+    overflow: hidden;
 }

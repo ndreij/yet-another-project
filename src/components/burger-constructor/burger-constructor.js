@@ -4,20 +4,24 @@ import PropTypes from 'prop-types';
 import Modal from '../modal/modal.js'
 import OrderDetails from '../order-details/order-details.js'
 import React from 'react';
-
+import ingredientTypes from '../../utils/types.js'
 
 function BurgerConstructor(props) {
 
   return (
-    
+
     <div className={styles.constructorwrapper}>
-      <ConstructorElement
-        type="top"
-        isLocked={true}
-        text="Краторная булка N-200i (верх)"
-        price={200}
-        thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-      />
+
+      <div className={styles.constructorelement}>
+        <ConstructorElement
+          type="top"
+          isLocked={true}
+          text="Краторная булка N-200i (верх)"
+          price={200}
+          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
+        />
+      </div>
+
 
       <div className={styles.scrollablecontent}>
         <ul className={styles.list}>
@@ -26,11 +30,13 @@ function BurgerConstructor(props) {
               return (
                 <li key={item._id} className={styles.listitem}>
                   <div className={styles.drag}> <DragIcon type="primary" /></div>
-                  <ConstructorElement
-                    text={item.name}
-                    price={item.price}
-                    thumbnail={item.image}
-                  />
+                  <div className={styles.constructorelement}>
+                    <ConstructorElement
+                      text={item.name}
+                      price={item.price}
+                      thumbnail={item.image}
+                    />
+                  </div>
                 </li>
               )
             }
@@ -39,13 +45,15 @@ function BurgerConstructor(props) {
         </ul>
       </div>
 
-      <ConstructorElement
-        type="bottom"
-        isLocked={true}
-        text="Краторная булка N-200i (низ)"
-        price={200}
-        thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-      />
+      <div className={styles.constructorelement}>
+        <ConstructorElement
+          type="bottom"
+          isLocked={true}
+          text="Краторная булка N-200i (низ)"
+          price={200}
+          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
+        />
+      </div>
 
       <div id="checkout" className={styles.checkout}>
         <div id="total" className={styles.total}>
@@ -69,18 +77,13 @@ function BurgerConstructor(props) {
         </Button>
       </div>
 
-
     </div>
   )
 }
 
 BurgerConstructor.propTypes = {
   setModalState: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  })).isRequired
+  data: PropTypes.arrayOf(ingredientTypes).isRequired
 };
 
 export default BurgerConstructor
