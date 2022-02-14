@@ -1,0 +1,36 @@
+.ingredientswrapper {
+    composes: pl-2 from global;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.ingredients {
+    composes: custom-scroll pr-6 from global;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 66vh;
+}
+
+.card {
+    composes: pb-5 from global;
+    max-width: 270px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.itemprice {
+    composes: pt-1 pb-1 text text_type_digits-default from global;
+    display: flex;
+}
+
+.tabs {
+    display: flex;
+}
+
+.itemname {
+    composes: text text_type_main-default from global;
+    text-align: center;
+}

@@ -1,0 +1,61 @@
+.constructrowrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center
+}
+
+.total {
+    composes: pr-10 from global;
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+}
+
+.checkout {
+    composes: pt-10 pr-10 from global;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+    -webkit-justify-content: flex-end;
+}
+
+.currencyicon {
+    height: 100px;
+}
+
+.scrollablecontent {
+    composes: custom-scroll pr-1 pt-1 pb-1 from global;
+    height: 30vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: relative
+}
+
+.drag {
+    position: absolute;
+    display: flex;
+    align-items: center;
+}
+
+.listitem {
+    composes: pt-1 pb-1 from global;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.constructorelement {
+    padding-left: 32px;
+}
