@@ -19,7 +19,7 @@ function App() {
 
   const [orderNumber, setOrderNumber] = React.useState('')
 
-  const [cart, setCart] = React.useState([{name: '', type: '', image: '', image_large: '', proteins: 0, fat: 0, carbohydrates: 0, price: 0, _id:'0'}])
+  const [cart, setCart] = React.useState([])
 
   React.useEffect(() => {
     fetch(url)

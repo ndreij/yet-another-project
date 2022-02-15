@@ -16,7 +16,6 @@ function BurgerConstructor(props) {
     let totalCart = cart;
     totalCart.map(item => (total += item.price));
     setTotalPrice(total);
-    console.log(cart)
   },
     [cart, setTotalPrice]
   );
@@ -26,7 +25,6 @@ function BurgerConstructor(props) {
 
     const cartIds = cart.map(item => item._id);
     const wrappedCartIds = { ingredients: Object.values(cartIds) }
-
     fetch(url, {
       method: 'POST',
       body: JSON.stringify(wrappedCartIds),
@@ -171,7 +169,6 @@ function BurgerConstructor(props) {
 
 BurgerConstructor.propTypes = {
   setModalState: PropTypes.func.isRequired,
-  //  data: PropTypes.arrayOf(ingredientTypes).isRequired
 };
 
 export default BurgerConstructor
