@@ -4,10 +4,10 @@ import {
     Counter,
     CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import ingredientTypes from '../../utils/types.js'
-
+import UserContext from '../../user-context.js'
 
 function IngredientCard(props) {
     return (
@@ -21,6 +21,8 @@ function IngredientCard(props) {
 }
 
 function BurgerIngredients(props) {
+
+    const data = useContext(UserContext);
 
     const [current, setCurrent] = React.useState('one');
 
@@ -41,7 +43,7 @@ function BurgerIngredients(props) {
             <div className={styles.ingredients}>
                 <h2 className="pt-5 pb-6 text text_type_main-medium">Булки</h2>
                 <div className={styles.ingredientswrapper}>
-                    {props.data.map((item, index) => {
+                    {data.data.map((item, index) => {
                         if (item.type === "bun") {
                             return (
                                 <IngredientCard setModalState={props.setModalState} item={item} key={item._id} />
@@ -52,7 +54,7 @@ function BurgerIngredients(props) {
                 </div>
                 <h2 className="pt-5 pb-6 text text_type_main-medium">Соусы</h2>
                 <div className={styles.ingredientswrapper}>
-                    {props.data.map((item, index) => {
+                    {data.data.map((item, index) => {
                         if (item.type === "sauce") {
                             return (
                                 <IngredientCard setModalState={props.setModalState} item={item} key={item._id} />
@@ -63,7 +65,7 @@ function BurgerIngredients(props) {
                 </div>
                 <h2 className="pt-5 pb-6 text text_type_main-medium">Начинки</h2>
                 <div className={styles.ingredientswrapper}>
-                    {props.data.map((item, index) => {
+                    {data.data.map((item, index) => {
                         if (item.type === "main") {
                             return (
                                 <IngredientCard setModalState={props.setModalState} item={item} key={item._id} />
