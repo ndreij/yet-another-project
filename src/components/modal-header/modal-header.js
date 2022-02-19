@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 function ModalHeader(props) {
     return (
         <div className={styles.modalheader} >
-            <p className="text text_type_main-default">{props.children}</p>
+            <p className="text text_type_main-large">{props.children}</p>
             <CloseIcon type="primary" onClick={() => props.setModalState({ visible: false })} />
         </div>
     )

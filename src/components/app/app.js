@@ -8,10 +8,9 @@ import OrderDetails from '../order-details/order-details.js'
 import IngredientDetails from '../ingredient-details/ingredient-details.js'
 import UserContext from '../../user-context.js'
 import { v4 as uuidv4 } from 'uuid'
+import {baseUrl, checkResponse} from '../../api.js'
 
 function App() {
-
-  const url = "https://norma.nomoreparties.space/api/ingredients"
 
   const [data, setData] = React.useState([{name: '', type: '', image: '', image_large: '', proteins: 0, fat: 0, carbohydrates: 0, price: 0, _id:'0'}])
 
@@ -19,19 +18,13 @@ function App() {
 
   const [orderNumber, setOrderNumber] = React.useState('')
 
+  const [orderNumberLoading, setOrderNumberLoading] = React.useState(false)
+  
   const [cart, setCart] = React.useState([])
 
   React.useEffect(() => {
-    fetch(url)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        } else if (response.status === 404) {
-          return Promise.reject('error 404')
-        } else {
-          return Promise.reject('some other error: ' + response.status)
-        }
-      })
+    fetch(`${baseUrl}/ingredients`)
+    .then(checkResponse)
       // Пока нет механики добавления ингредиентов вручную, просто скидываем всю базу в корзину
       .then(data => {setData(data.data); updateCart(data.data)})
       .catch(error => console.log(error))
@@ -61,10 +54,10 @@ function App() {
   return (
     <>
       <AppHeader />
-      <UserContext.Provider value={{data: data, orderNumber: orderNumber, setOrderNumber: setOrderNumber, cart: cart, setCart: setCart}}>
+      <UserContext.Provider value={{data: data, orderNumber: orderNumber, setOrderNumber: setOrderNumber, cart: cart, setCart: setCart, orderNumberLoading: orderNumberLoading, setOrderNumberLoading: setOrderNumberLoading}}>
       <section className={styles.content}>
         <div className={styles.ingredients}>
-          <BurgerIngredients data={data} setModalState={setModalState} />
+          <BurgerIngredients setModalState={setModalState} />
         </div>
         <div className={styles.constructor}>
             <BurgerConstructor setModalState={setModalState} />

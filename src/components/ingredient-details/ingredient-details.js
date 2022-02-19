@@ -8,7 +8,9 @@ function IngredientDetails(props) {
 
     return (
         <div>
-            <img className="pt-10" src={props.item.image_large} alt={props.item.name} />
+            <div className={styles.imagecontainer}>
+                <img src={props.item.image_large} alt={props.item.name} />
+            </div>
             <p className={styles.name}>
                 {props.item.name}
             </p>

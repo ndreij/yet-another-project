@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 import { useContext, useState, useEffect } from 'react';
 import ingredientTypes from '../../utils/types.js'
 import UserContext from '../../user-context.js'
+import { baseUrl, checkResponse } from '../../api.js'
 
 function BurgerConstructor(props) {
 
-  const { data, setOrderNumber, cart, setCart } = useContext(UserContext);
+  const { data, setOrderNumber, cart, setCart, orderNumberLoading, setOrderNumberLoading } = useContext(UserContext);
 
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -21,45 +22,39 @@ function BurgerConstructor(props) {
   );
 
   const sendOrder = () => {
-    const url = `https://norma.nomoreparties.space/api/orders`
 
     const cartIds = cart.map(item => item._id);
     const wrappedCartIds = { ingredients: Object.values(cartIds) }
-    fetch(url, {
+
+    setOrderNumberLoading(true);
+
+    fetch(`${baseUrl}/orders`, {
       method: 'POST',
       body: JSON.stringify(wrappedCartIds),
       headers: {
         'Content-Type': 'application/json'
       },
     })
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        } else if (response.status === 404) {
-          return Promise.reject('error 404')
-        } else {
-          return Promise.reject('some other error: ' + response.status)
-        }
-      })
-      .then(data => setOrderNumber(data.order.number))
+      .then(checkResponse)
+      .then(data => {setOrderNumber(data.order.number); setOrderNumberLoading(false); })
       .catch(error => console.log(error))
-  }
+    }
 
   function handleClose(id) {
-    let newCart = cart.filter(item => item._id != id)
+    const newCart = cart.filter(item => item._id != id)
     setCart(newCart);
   }
 
   return (
     <div className={styles.constructorwrapper}>
 
-    {/* Показываем заглушку если булок нет */}
+      {/* Показываем заглушку если булок нет */}
 
       {cart.filter(item => item.type === 'bun').length === 0 &&
         <div className={styles.constructorelementtop}>
-            <span className="styles.constructor-element__row">
-                <span className="constructor-element__text">Добавьте булку</span>
-            </span>
+          <span className="styles.constructor-element__row">
+            <span className="constructor-element__text">Добавьте булку</span>
+          </span>
         </div>
       }
 
@@ -80,17 +75,17 @@ function BurgerConstructor(props) {
       })
       }
 
-<div className={styles.scrollablecontent}>
+      <div className={styles.scrollablecontent}>
 
-    {/* Показываем заглушку если начинок нет */}
+        {/* Показываем заглушку если начинок нет */}
 
-    {cart.filter(item => item.type === 'main' || item.type === "suace").length === 0 &&
-        <div className={styles.constructorelementmiddle}>
+        {cart.filter(item => item.type === 'main' || item.type === "suace").length === 0 &&
+          <div className={styles.constructorelementmiddle}>
             <span className="styles.constructor-element__row">
-                <span className="constructor-element__text">Добавьте начинку</span>
+              <span className="constructor-element__text">Добавьте начинку</span>
             </span>
-        </div>
-      }
+          </div>
+        }
 
         <ul className={styles.list}>
           {cart.map((item, index) => {
@@ -114,13 +109,13 @@ function BurgerConstructor(props) {
         </ul>
       </div>
 
-    {/* Показываем заглушку если булок нет */}
+      {/* Показываем заглушку если булок нет */}
 
       {cart.filter(item => item.type === 'bun').length === 0 &&
         <div className={styles.constructorelementbottom}>
-            <span className="styles.constructor-element__row">
-                <span className="constructor-element__text">Добавьте булку</span>
-            </span>
+          <span className="styles.constructor-element__row">
+            <span className="constructor-element__text">Добавьте булку</span>
+          </span>
         </div>
       }
 
