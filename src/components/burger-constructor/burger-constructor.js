@@ -1,24 +1,31 @@
 import styles from './burger-constructor.module.css'
-import { ConstructorElement, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types';
-import { useContext, useState, useEffect } from 'react';
-import ingredientTypes from '../../utils/types.js'
-import UserContext from '../../user-context.js'
+import { ConstructorElement, Button } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useEffect } from 'react';
 import { baseUrl, checkResponse } from '../../api.js'
+import { useDispatch } from 'react-redux'
+import { UPDATE_ORDER_NUMBER, 
+  UPDATE_ORDER_NUMBER_LOADING,
+  UPDATE_TOTAL_PRICE,
+  SHOW_ORDER_MODAL } from '../../services/actions'
+import { useSelector } from 'react-redux'
+import { DraggableItem } from './draggable-item.js'
+import {DropTarget} from '../drop-target/drop-target.js'
 
 function BurgerConstructor(props) {
 
-  const { data, setOrderNumber, cart, setCart, orderNumberLoading, setOrderNumberLoading } = useContext(UserContext);
+  const cart = useSelector(store => store.miscList.cart)
 
-  const [totalPrice, setTotalPrice] = useState(0);
+  const {totalPrice} = useSelector(state => state.miscList);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let total = 0;
     let totalCart = cart;
     totalCart.map(item => (total += item.price));
-    setTotalPrice(total);
+    dispatch({type: UPDATE_TOTAL_PRICE, payload: total})
   },
-    [cart, setTotalPrice]
+    [cart, totalPrice]
   );
 
   const sendOrder = () => {
@@ -26,7 +33,8 @@ function BurgerConstructor(props) {
     const cartIds = cart.map(item => item._id);
     const wrappedCartIds = { ingredients: Object.values(cartIds) }
 
-    setOrderNumberLoading(true);
+    dispatch({type: SHOW_ORDER_MODAL})
+    dispatch({type: UPDATE_ORDER_NUMBER_LOADING, payload: true})
 
     fetch(`${baseUrl}/orders`, {
       method: 'POST',
@@ -36,20 +44,15 @@ function BurgerConstructor(props) {
       },
     })
       .then(checkResponse)
-      .then(data => {setOrderNumber(data.order.number); setOrderNumberLoading(false); })
+      .then(data => {dispatch({type: UPDATE_ORDER_NUMBER, payload: data.order.number}); dispatch({type:UPDATE_ORDER_NUMBER_LOADING, payload: false}); })
       .catch(error => console.log(error))
     }
-
-  function handleClose(id) {
-    const newCart = cart.filter(item => item._id != id)
-    setCart(newCart);
-  }
 
   return (
     <div className={styles.constructorwrapper}>
 
       {/* Показываем заглушку если булок нет */}
-
+      <DropTarget>
       {cart.filter(item => item.type === 'bun').length === 0 &&
         <div className={styles.constructorelementtop}>
           <span className="styles.constructor-element__row">
@@ -79,7 +82,7 @@ function BurgerConstructor(props) {
 
         {/* Показываем заглушку если начинок нет */}
 
-        {cart.filter(item => item.type === 'main' || item.type === "suace").length === 0 &&
+        {cart.filter(item => item.type === 'main' || item.type === "sauce").length === 0 &&
           <div className={styles.constructorelementmiddle}>
             <span className="styles.constructor-element__row">
               <span className="constructor-element__text">Добавьте начинку</span>
@@ -91,17 +94,7 @@ function BurgerConstructor(props) {
           {cart.map((item, index) => {
             if (item.type === "main" || item.type === "sauce") {
               return (
-                <li key={item.uuid} className={styles.listitem}>
-                  <div className={styles.drag}> <DragIcon type="primary" /></div>
-                  <div className={styles.constructorelement}>
-                    <ConstructorElement
-                      text={item.name}
-                      price={item.price}
-                      thumbnail={item.image}
-                      handleClose={() => handleClose(item._id)}
-                    />
-                  </div>
-                </li>
+                <DraggableItem item={item}  key={item.uuid} index={index}/>
               )
             }
           })
@@ -135,6 +128,7 @@ function BurgerConstructor(props) {
         }
       })
       }
+      </DropTarget>
 
       <div id="checkout" className={styles.checkout}>
         <div id="total" className={styles.total}>
@@ -153,7 +147,7 @@ function BurgerConstructor(props) {
             <path d="M12.7142 20.9615C12.3221 21.3616 11.6779 21.3616 11.2858 20.9615L7.10635 16.6968C6.83068 16.4155 6.7458 15.9986 6.88954 15.6319L11.069 4.97004C11.4009 4.12332 12.5991 4.12333 12.931 4.97004L17.1105 15.6319C17.2542 15.9986 17.1693 16.4155 16.8937 16.6968L12.7142 20.9615Z" />
           </svg>
         </div>
-        <Button type="primary" size="large" onClick={() => { sendOrder(); props.setModalState({ visible: true, content: 'total' }) }}>
+        <Button type="primary" size="large" onClick={() => { sendOrder() }}>
           Оформить заказ
         </Button>
       </div>
@@ -161,9 +155,5 @@ function BurgerConstructor(props) {
     </div>
   )
 }
-
-BurgerConstructor.propTypes = {
-  setModalState: PropTypes.func.isRequired,
-};
 
 export default BurgerConstructor

@@ -2,15 +2,13 @@ import styles from './order-details.module.css'
 import {
     CheckMarkIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import React, {useContext} from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import UserContext from '../../user-context.js'
+import React from 'react';
+import { useSelector } from 'react-redux';
+ 
 
 function OrderDetails() {
 
-    const { orderNumber } = useContext(UserContext);
-    const { orderNumberLoading } = useContext(UserContext);
+    const { orderNumber, orderNumberLoading } = useSelector(state => state.miscList);
 
     return (
             <div className={styles.orderdetails}>

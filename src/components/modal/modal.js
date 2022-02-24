@@ -1,20 +1,24 @@
 import styles from './modal.module.css'
-import {
-  CloseIcon
-} from '@ya.praktikum/react-developer-burger-ui-components'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import ModalOverlay from '../modal-overlay/modal-overlay.js'
 import ModalHeader from '../modal-header/modal-header.js'
+import {HIDE_MODAL} from '../../services/actions'
+import {useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 
 const modalRoot = document.getElementById("react-modals");
 
 function Modal(props) {
 
+ const dispatch = useDispatch()
+
+ const header = useSelector(state => state.miscList.modalState.header)
+
   const handleCloseByEsc = (event) => {
     if (event.key === 'Escape') {
-      return props.setModalState({ visible: false })
+      return dispatch({type: HIDE_MODAL})
     }
   }
 
@@ -27,10 +31,10 @@ function Modal(props) {
 
   return ReactDOM.createPortal(
       <>
-        <ModalOverlay setModalState={props.setModalState} />
+        <ModalOverlay/>
         <div className={styles.modal}>
           <div className={styles.modalcontent} >
-            <ModalHeader setModalState={props.setModalState}>{props.header}</ModalHeader>
+            <ModalHeader>{props.header}</ModalHeader>
             {props.children}
           </div>
         </div>
@@ -40,7 +44,6 @@ function Modal(props) {
 }
 
 Modal.propTypes = {
-  setModalState: PropTypes.func.isRequired,
   header: PropTypes.string,
 }
 

@@ -1,18 +1,17 @@
 import styles from './modal-overlay.module.css'
 import React from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+import {useDispatch} from 'react-redux'
+import {HIDE_MODAL} from '../../services/actions'
 
 function ModalOverlay (props) {
 
+    const dispatch = useDispatch()
+
     return (
-        <div className={styles.modaloverlay} onClick={() => props.setModalState({visible: false})}>
+        <div className={styles.modaloverlay} onClick={() => dispatch({type: HIDE_MODAL})} >
         </div>
     )
 }
 
-ModalOverlay.propTypes = {
-    setModalState: PropTypes.func.isRequired,
-  }
 
 export default ModalOverlay

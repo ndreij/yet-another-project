@@ -4,25 +4,41 @@ import {
     Counter,
     CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import React, { useContext, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef } from 'react';
 import ingredientTypes from '../../utils/types.js'
-import UserContext from '../../user-context.js'
+import {useDispatch, useSelector} from 'react-redux'
+import {SHOW_INGREDIENT_MODAL} from '../../services/actions'
+import {useDrag} from 'react-dnd'
 
 function IngredientCard(props) {
+
+    const dispatch = useDispatch();
+    const cart  = useSelector(store => store.miscList.cart)
+    const cartItemCount = cart.filter(item => item._id === props.item._id).length
+
+    const ref = useRef()
+    const id = props.item._id
+
+    const [, drag] = useDrag(() => ({
+        type: "ingredient",
+        item: { id }
+    }))
+
     return (
-        <div className={styles.card} onClick={() => { props.setModalState({ visible: true, content: 'ingredient', header: 'Детали ингредиента', item: props.item }) }}>
+     <div ref={drag} className={styles.card} onClick={() => { dispatch({type: SHOW_INGREDIENT_MODAL, payload: props.item})}}>
+      {/* <div className={styles.card} onClick={() => { dispatch({type: UPDATE_CART, payload: props.item})}}> */}
             <img src={props.item.image}></img>
             <p className={styles.itemprice}><span>{props.item.price}</span> <span className={`pl-2`}><CurrencyIcon type="primary" /></span></p>
             <p className={styles.itemname}>{props.item.name}</p>
-            <Counter count={1} size="default" />
+            {cartItemCount && <Counter count={cartItemCount} size="default" />}
         </div>
     )
 }
 
 function BurgerIngredients(props) {
 
-    const data = useContext(UserContext);
+    const data = useSelector(state => state.miscList.data)
+    const dispatch = useDispatch()
 
     const [current, setCurrent] = React.useState('one');
 
@@ -60,7 +76,6 @@ function BurgerIngredients(props) {
         let callback = (entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    console.log(entry)
                     setCurrent(entry.target.id);
                 }
             })
@@ -93,10 +108,10 @@ function BurgerIngredients(props) {
                 <div id="one">
                 <h2 ref={one} className="pt-5 pb-6 text text_type_main-medium">Булки</h2>
                 <div className={styles.ingredientswrapper}>
-                    {data.data.map((item, index) => {
+                    {data.length >= 0 && data.map((item) => {
                         if (item.type === "bun") {
                             return (
-                                <IngredientCard setModalState={props.setModalState} item={item} key={item._id} />
+                                <IngredientCard item={item} key={item._id} />
                             )
                         }
                     })
@@ -107,10 +122,10 @@ function BurgerIngredients(props) {
                 <div id="two">
                 <h2 id="two" ref={two} className="pt-5 pb-6 text text_type_main-medium">Соусы</h2>
                 <div className={styles.ingredientswrapper}>
-                    {data.data.map((item, index) => {
+                    {data.length && data.map((item) => {
                         if (item.type === "sauce") {
                             return (
-                                <IngredientCard setModalState={props.setModalState} item={item} key={item._id} />
+                                <IngredientCard item={item} key={item._id} />
                             )
                         }
                     })
@@ -121,10 +136,10 @@ function BurgerIngredients(props) {
                 <div id="three">
                 <h2 id="three" ref={three} className="pt-5 pb-6 text text_type_main-medium">Начинки</h2>
                 <div className={styles.ingredientswrapper}>
-                    {data.data.map((item, index) => {
+                    {data.length > 0 && data.map((item) => {
                         if (item.type === "main") {
                             return (
-                                <IngredientCard setModalState={props.setModalState} item={item} key={item._id} />
+                                <IngredientCard item={item} key={item._id} />
                             )
                         }
                     })
@@ -140,8 +155,5 @@ IngredientCard.propTypes = {
     item: ingredientTypes.isRequired
 };
 
-BurgerIngredients.propTypes = {
-    setModalState: PropTypes.func.isRequired,
-}
 
 export default BurgerIngredients
