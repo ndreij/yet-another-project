@@ -119,7 +119,7 @@ export const miscReducer = (state = initialState, action) => {
 
     case REMOVE_ITEM_FROM_CART: {
         const id = action.payload
-        const newCart = state.cart.filter(item => item._id != id)
+        const newCart = state.cart.filter(item => item._id !== id)
         return {
             ...state,
             cart: newCart

@@ -1,18 +1,17 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from 'react-redux'
 import { UPDATE_CART } from "../../services/actions";
 
 export const DropTarget = ( props ) => {
 
-    const ref = useRef(null)
     const dispatch = useDispatch()
     const data = useSelector(store => store.miscList.data)
 
     const [, drop] = useDrop ({
         accept: "ingredient",
         drop(ingredient) {
-            const newItem = data.filter(item => item._id == ingredient.id)
+            const newItem = data.filter(item => item._id === ingredient.id)
             dispatch({type: UPDATE_CART, payload: newItem})
         }
     })

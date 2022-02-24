@@ -16,7 +16,6 @@ function IngredientCard(props) {
     const cart  = useSelector(store => store.miscList.cart)
     const cartItemCount = cart.filter(item => item._id === props.item._id).length
 
-    const ref = useRef()
     const id = props.item._id
 
     const [, drag] = useDrag(() => ({
@@ -27,7 +26,7 @@ function IngredientCard(props) {
     return (
      <div ref={drag} className={styles.card} onClick={() => { dispatch({type: SHOW_INGREDIENT_MODAL, payload: props.item})}}>
       {/* <div className={styles.card} onClick={() => { dispatch({type: UPDATE_CART, payload: props.item})}}> */}
-            <img src={props.item.image}></img>
+            <img src={props.item.image} alt={props.item.name} ></img>
             <p className={styles.itemprice}><span>{props.item.price}</span> <span className={`pl-2`}><CurrencyIcon type="primary" /></span></p>
             <p className={styles.itemname}>{props.item.name}</p>
             {cartItemCount && <Counter count={cartItemCount} size="default" />}
@@ -38,7 +37,6 @@ function IngredientCard(props) {
 function BurgerIngredients(props) {
 
     const data = useSelector(state => state.miscList.data)
-    const dispatch = useDispatch()
 
     const [current, setCurrent] = React.useState('one');
 
@@ -114,6 +112,7 @@ function BurgerIngredients(props) {
                                 <IngredientCard item={item} key={item._id} />
                             )
                         }
+                        return null
                     })
                     }
                 </div>
@@ -128,6 +127,7 @@ function BurgerIngredients(props) {
                                 <IngredientCard item={item} key={item._id} />
                             )
                         }
+                        return null
                     })
                     }
                 </div>
@@ -142,6 +142,7 @@ function BurgerIngredients(props) {
                                 <IngredientCard item={item} key={item._id} />
                             )
                         }
+                        return null
                     })
                     }
                 </div>

@@ -8,15 +8,11 @@ import OrderDetails from '../order-details/order-details.js'
 import IngredientDetails from '../ingredient-details/ingredient-details.js'
 import {baseUrl, checkResponse} from '../../api.js'
 import {useSelector, useDispatch} from 'react-redux'
-import {INGEST_DATA, UPDATE_CART} from '../../services/actions'
+import {INGEST_DATA} from '../../services/actions'
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-
-  const data = useSelector(state => state.miscList.data)
-
-  const cart = useSelector(state => state.miscList.cart)
 
   const modalState = useSelector(state => state.miscList.modalState)
   
@@ -27,7 +23,7 @@ function App() {
     .then(checkResponse)
       .then(data => {dispatch({type: INGEST_DATA, payload: data.data})})
       .catch(error => console.log(error))
-  }, [])
+  }, [dispatch])
 
   return (
     <>

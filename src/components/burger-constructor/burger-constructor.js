@@ -25,7 +25,7 @@ function BurgerConstructor(props) {
     totalCart.map(item => (total += item.price));
     dispatch({type: UPDATE_TOTAL_PRICE, payload: total})
   },
-    [cart, totalPrice]
+    [cart, totalPrice, dispatch]
   );
 
   const sendOrder = () => {
@@ -75,6 +75,7 @@ function BurgerConstructor(props) {
             </div>
           )
         }
+        return null
       })
       }
 
@@ -97,6 +98,7 @@ function BurgerConstructor(props) {
                 <DraggableItem item={item}  key={item.uuid} index={index}/>
               )
             }
+            return null
           })
           }
         </ul>
@@ -126,6 +128,7 @@ function BurgerConstructor(props) {
             </div>
           )
         }
+        return null
       })
       }
       </DropTarget>

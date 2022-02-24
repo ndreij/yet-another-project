@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import ModalOverlay from '../modal-overlay/modal-overlay.js'
 import ModalHeader from '../modal-header/modal-header.js'
 import {HIDE_MODAL} from '../../services/actions'
-import {useSelector} from 'react-redux'
 import {useDispatch} from 'react-redux'
 
 const modalRoot = document.getElementById("react-modals");
@@ -13,8 +12,6 @@ const modalRoot = document.getElementById("react-modals");
 function Modal(props) {
 
  const dispatch = useDispatch()
-
- const header = useSelector(state => state.miscList.modalState.header)
 
   const handleCloseByEsc = (event) => {
     if (event.key === 'Escape') {
@@ -27,7 +24,7 @@ function Modal(props) {
     return () => {
       document.removeEventListener('keydown', handleCloseByEsc);
     };
-  }, [handleCloseByEsc]);
+  });
 
   return ReactDOM.createPortal(
       <>

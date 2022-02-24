@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/app/app';
-import DragAndDropContainer from './DnDTest.js'
 import reportWebVitals from './reportWebVitals';
 import { rootReducer } from './services/reducers';
 import { compose, createStore, applyMiddleware } from 'redux';
@@ -22,7 +21,6 @@ const store = createStore(rootReducer, enhancer);
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <DragAndDropContainer /> */}
     <App />
     </Provider>
   </React.StrictMode>,

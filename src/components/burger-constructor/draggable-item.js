@@ -1,11 +1,10 @@
 import styles from './burger-constructor.module.css'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useDispatch } from 'react-redux'
-import { REMOVE_ITEM_FROM_CART, SORT_INGREDIENTS, MOVE_CARD, UPDATE_CART } from '../../services/actions'
+import { REMOVE_ITEM_FROM_CART, MOVE_CARD } from '../../services/actions'
 import { useSelector } from 'react-redux'
-import {useCallback, useRef} from 'react'
+import { useRef} from 'react'
 import { useDrag, useDrop } from "react-dnd";
-import update from 'immutability-helper';
 
 export function DraggableItem ({ item, index }) {
   const id = item.uuid
@@ -28,7 +27,7 @@ const moveCard = (dragIndex, hoverIndex) => {
   dispatch({type: MOVE_CARD, payload: newCards})
 }
 
-const [{ handlerId }, drop] = useDrop({
+const [, drop] = useDrop({
   accept: "card",
   collect(monitor) {
       return {
