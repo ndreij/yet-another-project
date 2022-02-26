@@ -4,12 +4,9 @@ import {
     CloseIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import React from 'react';
-import {HIDE_MODAL} from '../../services/actions'
-import {useDispatch} from 'react-redux'
+import PropTypes from 'prop-types';
 
 function ModalHeader(props) {
-
-    const dispatch = useDispatch()
 
     return (
         <div className={styles.modalheader} >
@@ -19,5 +16,8 @@ function ModalHeader(props) {
     )
 }
 
+ModalHeader.propTypes = {
+    onClose: PropTypes.func.isRequired
+  }
 
 export default ModalHeader
