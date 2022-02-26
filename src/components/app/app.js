@@ -10,7 +10,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { getIngredients } from '../../services/actions/async.js';
-
+import { HIDE_MODAL } from '../../services/actions'
 
 function App() {
 
@@ -21,6 +21,10 @@ function App() {
   React.useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch])
+
+function onClose () {
+  dispatch({type: HIDE_MODAL})
+}
 
   return (
     <>
@@ -37,13 +41,13 @@ function App() {
 
 
       {modalState.visible && modalState.content === 'total' &&
-        <Modal header={modalState.header}>
+        <Modal header={modalState.header} onClose={onClose}>
           <OrderDetails />
         </Modal>
       }
 
       {modalState.visible && modalState.content === 'ingredient' &&
-        <Modal header={modalState.header}>
+        <Modal header={modalState.header} onClose={onClose}>
           <IngredientDetails item={modalState.item} />
         </Modal>
       }

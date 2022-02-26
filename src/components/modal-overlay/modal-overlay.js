@@ -8,7 +8,7 @@ function ModalOverlay (props) {
     const dispatch = useDispatch()
 
     return (
-        <div className={styles.modaloverlay} onClick={() => dispatch({type: HIDE_MODAL})} >
+        <div className={styles.modaloverlay} onClick={() => props.onClose()} >
         </div>
     )
 }

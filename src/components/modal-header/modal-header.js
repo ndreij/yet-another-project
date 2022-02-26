@@ -14,7 +14,7 @@ function ModalHeader(props) {
     return (
         <div className={styles.modalheader} >
             <p className="text text_type_main-large">{props.children}</p>
-            <CloseIcon type="primary" onClick={() => dispatch({type: HIDE_MODAL})} />
+            <CloseIcon type="primary" onClick={() => props.onClose()} />
         </div>
     )
 }

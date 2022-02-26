@@ -11,11 +11,11 @@ const modalRoot = document.getElementById("react-modals");
 
 function Modal(props) {
 
- const dispatch = useDispatch()
+  const onClose = props.onClose;
 
   const handleCloseByEsc = (event) => {
     if (event.key === 'Escape') {
-      return dispatch({type: HIDE_MODAL})
+      return onClose()
     }
   }
 
@@ -28,10 +28,10 @@ function Modal(props) {
 
   return ReactDOM.createPortal(
       <>
-        <ModalOverlay/>
+        <ModalOverlay onClose={onClose}/>
         <div className={styles.modal}>
           <div className={styles.modalcontent} >
-            <ModalHeader>{props.header}</ModalHeader>
+            <ModalHeader onClose={onClose}>{props.header}</ModalHeader>
             {props.children}
           </div>
         </div>
