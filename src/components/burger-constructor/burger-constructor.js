@@ -1,17 +1,16 @@
 import styles from './burger-constructor.module.css'
 import { ConstructorElement, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useEffect } from 'react';
-import { baseUrl, checkResponse } from '../../api.js'
 import { useDispatch } from 'react-redux'
-import { UPDATE_ORDER_NUMBER, 
-  UPDATE_ORDER_NUMBER_LOADING,
+import { 
   UPDATE_TOTAL_PRICE,
-  SHOW_ORDER_MODAL } from '../../services/actions'
+} from '../../services/actions'
 import { useSelector } from 'react-redux'
 import { DraggableItem } from './draggable-item.js'
-import {DropTarget} from '../drop-target/drop-target.js'
+import { DropTarget } from '../drop-target/drop-target.js'
+import { sendOrder } from '../../services/actions/async.js'
 
-function BurgerConstructor(props) {
+function BurgerConstructor() {
 
   const cart = useSelector(store => store.miscList.cart)
 
@@ -27,26 +26,6 @@ function BurgerConstructor(props) {
   },
     [cart, totalPrice, dispatch]
   );
-
-  const sendOrder = () => {
-
-    const cartIds = cart.map(item => item._id);
-    const wrappedCartIds = { ingredients: Object.values(cartIds) }
-
-    dispatch({type: SHOW_ORDER_MODAL})
-    dispatch({type: UPDATE_ORDER_NUMBER_LOADING, payload: true})
-
-    fetch(`${baseUrl}/orders`, {
-      method: 'POST',
-      body: JSON.stringify(wrappedCartIds),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-      .then(checkResponse)
-      .then(data => {dispatch({type: UPDATE_ORDER_NUMBER, payload: data.order.number}); dispatch({type:UPDATE_ORDER_NUMBER_LOADING, payload: false}); })
-      .catch(error => console.log(error))
-    }
 
   return (
     <div className={styles.constructorwrapper}>
@@ -150,7 +129,7 @@ function BurgerConstructor(props) {
             <path d="M12.7142 20.9615C12.3221 21.3616 11.6779 21.3616 11.2858 20.9615L7.10635 16.6968C6.83068 16.4155 6.7458 15.9986 6.88954 15.6319L11.069 4.97004C11.4009 4.12332 12.5991 4.12333 12.931 4.97004L17.1105 15.6319C17.2542 15.9986 17.1693 16.4155 16.8937 16.6968L12.7142 20.9615Z" />
           </svg>
         </div>
-        <Button type="primary" size="large" onClick={() => { sendOrder() }}>
+        <Button type="primary" size="large" onClick={() => { dispatch(sendOrder()) }}>
           Оформить заказ
         </Button>
       </div>

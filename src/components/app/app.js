@@ -6,11 +6,11 @@ import React from 'react'
 import Modal from '../modal/modal.js'
 import OrderDetails from '../order-details/order-details.js'
 import IngredientDetails from '../ingredient-details/ingredient-details.js'
-import {baseUrl, checkResponse} from '../../api.js'
 import {useSelector, useDispatch} from 'react-redux'
-import {INGEST_DATA} from '../../services/actions'
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { getIngredients } from '../../services/actions/async.js';
+
 
 function App() {
 
@@ -19,10 +19,7 @@ function App() {
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    fetch(`${baseUrl}/ingredients`)
-    .then(checkResponse)
-      .then(data => {dispatch({type: INGEST_DATA, payload: data.data})})
-      .catch(error => console.log(error))
+    dispatch(getIngredients());
   }, [dispatch])
 
   return (

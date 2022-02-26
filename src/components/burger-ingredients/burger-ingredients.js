@@ -25,7 +25,6 @@ function IngredientCard(props) {
 
     return (
      <div ref={drag} className={styles.card} onClick={() => { dispatch({type: SHOW_INGREDIENT_MODAL, payload: props.item})}}>
-      {/* <div className={styles.card} onClick={() => { dispatch({type: UPDATE_CART, payload: props.item})}}> */}
             <img src={props.item.image} alt={props.item.name} ></img>
             <p className={styles.itemprice}><span>{props.item.price}</span> <span className={`pl-2`}><CurrencyIcon type="primary" /></span></p>
             <p className={styles.itemname}>{props.item.name}</p>
@@ -34,7 +33,7 @@ function IngredientCard(props) {
     )
 }
 
-function BurgerIngredients(props) {
+function BurgerIngredients() {
 
     const data = useSelector(state => state.miscList.data)
 

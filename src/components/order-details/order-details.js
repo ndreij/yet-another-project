@@ -8,11 +8,11 @@ import { useSelector } from 'react-redux';
 
 function OrderDetails() {
 
-    const { orderNumber, orderNumberLoading } = useSelector(state => state.miscList);
+    const { orderNumber, orderRequest } = useSelector(state => state.miscList);
 
     return (
             <div className={styles.orderdetails}>
-                {orderNumberLoading 
+                {orderRequest 
                 ? 
                 <div className={styles.spinnercontainer}>
                 <svg className={styles.upper} width="30%"  viewBox="0 0 276 276" fill="none" xmlns="http://www.w3.org/2000/svg" >

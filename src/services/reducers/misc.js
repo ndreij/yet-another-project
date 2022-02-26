@@ -1,49 +1,21 @@
-import { 
-    UPDATE_ORDER_NUMBER, 
-    UPDATE_ORDER_NUMBER_LOADING, 
+import {
     UPDATE_TOTAL_PRICE,
     SHOW_INGREDIENT_MODAL,
     HIDE_MODAL,
-    SHOW_ORDER_MODAL,
-    INGEST_DATA,
     UPDATE_CART,
     REMOVE_ITEM_FROM_CART,
-    UPDATE_INGREDIENTS,
-    SORT_INGREDIENTS,
-    MOVE_CARD
- } from "../actions";
- import { v4 as uuidv4 } from 'uuid'
-
-const initialState = {
-    orderNumber: 0,
-    orderNumberLoading: true,
-    totalPrice: 0,
-    modalState: {
-        visible: false,
-        header: '',
-        content: 'ingredient',
-        item: {}
-    },
-    data : [],
-    cart: []
-};
+    MOVE_CARD,
+    GET_INGREDIENTS,
+    GET_INGREDIENTS_FAILED,
+    GET_INGREDIENTS_SUCCESS,
+    SEND_ORDER,
+    SEND_ORDER_FAILED,
+    SEND_ORDER_SUCCESS,
+} from "../actions";
+import { initialState } from '../store.js'
 
 export const miscReducer = (state = initialState, action) => {
     switch (action.type) {
-
-        case UPDATE_ORDER_NUMBER: {
-            return {
-                ...state,
-                orderNumber: action.payload,
-            };
-        }
-
-        case UPDATE_ORDER_NUMBER_LOADING: {
-            return {
-                ...state,
-                orderNumberLoading: action.payload,
-            };
-        }
 
         case UPDATE_TOTAL_PRICE: {
             return {
@@ -56,8 +28,8 @@ export const miscReducer = (state = initialState, action) => {
             return {
                 ...state,
                 modalState: {
-                ...state.modalState,
-                visible: false
+                    ...state.modalState,
+                    visible: false
                 }
             };
         }
@@ -72,84 +44,102 @@ export const miscReducer = (state = initialState, action) => {
                     header: 'Детали ингредиента',
                     item: action.payload
                 }
-                
+
             };
         }
-
-        case SHOW_ORDER_MODAL: {
-            return {
-                ...state,
-                modalState: {...state.modalState,
-                    visible: true, 
-                    content: 'total'
-            }
-        }
-    }
-
-    case INGEST_DATA: {
-        return {
-            ...state,
-            data: [...action.payload]
-            
-        };
-    }
 
         case UPDATE_CART: {
 
             let newCart = state.cart.slice();
             const items = [action.payload].flat()
             items.forEach(item => {
-              if (item.type === "bun") {
-                // Если добавляется булка, удалем любые другие булки в корзине
-                let cartWithoutBuns = newCart.filter(item => item.type !== "bun")
-                const wrappedBunTop = {...item, name: `${item.name} (верх)`, bunType: "top", uuid: uuidv4()}
-                const wrappedBunBottom = {...item, name: `${item.name} (низ)`, bunType: "bottom", uuid: uuidv4()}
-                newCart = [...cartWithoutBuns, wrappedBunTop, wrappedBunBottom]
-            } else {
-                newCart.push({...item, uuid: uuidv4()})
-              }
+                if (item.type === "bun") {
+                    // Если добавляется булка, удалем любые другие булки в корзине
+                    let cartWithoutBuns = newCart.filter(item => item.type !== "bun")
+                    const wrappedBunTop = { ...item, name: `${item.name} (верх)`, bunType: "top" }
+                    const wrappedBunBottom = { ...item, name: `${item.name} (низ)`, bunType: "bottom" }
+                    newCart = [...cartWithoutBuns, wrappedBunTop, wrappedBunBottom]
+                } else {
+                    newCart.push({ ...item })
+                }
             })
-        return {
-            ...state,
-            cart: [
-                ...newCart, 
+            return {
+                ...state,
+                cart: [
+                    ...newCart,
                 ]
-        };
-    }
+            };
+        }
 
-    case REMOVE_ITEM_FROM_CART: {
-        const id = action.payload
-        const newCart = state.cart.filter(item => item._id !== id)
-        return {
-            ...state,
-            cart: newCart
-        };
-    }
+        case REMOVE_ITEM_FROM_CART: {
+            const itemUUID = action.payload
+            const newCart = state.cart.filter(item => item.uuid !== itemUUID)
+            return {
+                ...state,
+                cart: newCart
+            };
+        }
 
-    case UPDATE_INGREDIENTS: {
-        return {
-            ...state,
-            cart: state.ingredients.map(ingredient =>
-                ingredient.id === action.id ? { ...ingredient } : ingredient
-            )
-        };
-    }
+        case MOVE_CARD: {
+            return {
+                ...state,
+                cart: action.payload,
+            };
+        }
 
-    case SORT_INGREDIENTS: {
-        return {
-          ...state,
-          cart: action.ingredients,
-        };
-      }
+        case GET_INGREDIENTS: {
+            return {
+                ...state,
+                dataRequest: true,
+                dataFailed: false,
+            };
+        }
+        case GET_INGREDIENTS_SUCCESS: {
+            return {
+                ...state,
+                data: action.data,
+                dataRequest: false
+            };
+        }
+        case GET_INGREDIENTS_FAILED: {
+            return {
+                ...state,
+                dataFailed: true,
+                dataRequest: false
+            };
+        }
 
-      case MOVE_CARD: {
-        return {
-          ...state,
-          cart: action.payload,
-        };
-      }
-    
-    
+        case SEND_ORDER: {
+            return {
+                ...state,
+                orderRequest: true,
+                orderFailed: false,
+                modalState: {
+                    ...state.modalState,
+                    visible: true,
+                    content: 'total',
+                    header: ''
+                }
+            }
+        }
+
+        case SEND_ORDER_SUCCESS: {
+            return {
+                ...state,
+                cart: [],
+                orderNumber: action.payload.order.number,
+                orderRequest: false,
+            };
+        }
+
+        case SEND_ORDER_FAILED: {
+            return {
+                ...state,
+                orderFailed: true,
+                orderRequest: false
+            };
+        }
+
         default:
             return state;
     }

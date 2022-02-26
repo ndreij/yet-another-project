@@ -5,6 +5,8 @@ import { REMOVE_ITEM_FROM_CART, MOVE_CARD } from '../../services/actions'
 import { useSelector } from 'react-redux'
 import { useRef} from 'react'
 import { useDrag, useDrop } from "react-dnd";
+import ingredientTypes from '../../utils/types.js'
+import PropTypes from 'prop-types';
 
 export function DraggableItem ({ item, index }) {
   const id = item.uuid
@@ -79,9 +81,14 @@ drag(drop(ref));
           text={item.name}
           price={item.price}
           thumbnail={item.image}
-          handleClose={() => handleClose(item._id)}
+          handleClose={() => handleClose(item.uuid)}
         />
       </div>
     </li>
   )
 }
+
+DraggableItem.propTypes = {
+  item: ingredientTypes.isRequired,
+  index: PropTypes.number.isRequired,
+};
