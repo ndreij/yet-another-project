@@ -6,54 +6,52 @@ import React from 'react'
 import Modal from '../modal/modal.js'
 import OrderDetails from '../order-details/order-details.js'
 import IngredientDetails from '../ingredient-details/ingredient-details.js'
+import {useSelector, useDispatch} from 'react-redux'
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { getIngredients } from '../../services/actions/async.js';
+import { HIDE_MODAL } from '../../services/actions'
 
 function App() {
 
-  const url = "https://norma.nomoreparties.space/api/ingredients"
-
-  const [data, setData] = React.useState([])
-
-  const [modalState, setModalState] = React.useState({ visible: false, header: '', content: 'ingredient', item: {} })
+  const modalState = useSelector(state => state.miscList.modalState)
+  
+  const dispatch = useDispatch()
 
   React.useEffect(() => {
-    fetch(url)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        } else if (response.status === 404) {
-          return Promise.reject('error 404')
-        } else {
-          return Promise.reject('some other error: ' + response.status)
-        }
-      })
-      .then(data => setData(data.data))
-      .catch(error => console.log(error))
-  }, [])
+    dispatch(getIngredients());
+  }, [dispatch])
+
+function onClose () {
+  dispatch({type: HIDE_MODAL})
+}
 
   return (
     <>
       <AppHeader />
+      <DndProvider backend={HTML5Backend}>
       <section className={styles.content}>
         <div className={styles.ingredients}>
-          <BurgerIngredients data={data} setModalState={setModalState} />
+          <BurgerIngredients/>
         </div>
         <div className={styles.constructor}>
-          <BurgerConstructor data={data} setModalState={setModalState} />
+            <BurgerConstructor/>
         </div>
       </section>
 
+
       {modalState.visible && modalState.content === 'total' &&
-        <Modal header={modalState.header} setModalState={setModalState}>
+        <Modal header={modalState.header} onClose={onClose}>
           <OrderDetails />
         </Modal>
       }
 
       {modalState.visible && modalState.content === 'ingredient' &&
-        <Modal header={modalState.header} setModalState={setModalState}>
+        <Modal header={modalState.header} onClose={onClose}>
           <IngredientDetails item={modalState.item} />
         </Modal>
       }
-
+      </DndProvider>
     </>
   );
 }

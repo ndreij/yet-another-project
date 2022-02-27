@@ -1,63 +1,120 @@
 import styles from './burger-constructor.module.css'
-import { ConstructorElement, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types';
-import Modal from '../modal/modal.js'
-import OrderDetails from '../order-details/order-details.js'
-import React from 'react';
-import ingredientTypes from '../../utils/types.js'
+import { ConstructorElement, Button } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux'
+import { 
+  UPDATE_TOTAL_PRICE,
+} from '../../services/actions'
+import { useSelector } from 'react-redux'
+import { DraggableItem } from './draggable-item.js'
+import { DropTarget } from '../drop-target/drop-target.js'
+import { sendOrder } from '../../services/actions/async.js'
 
-function BurgerConstructor(props) {
+function BurgerConstructor() {
+
+  const cart = useSelector(store => store.miscList.cart)
+
+  const {totalPrice} = useSelector(state => state.miscList);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let total = 0;
+    let totalCart = cart;
+    totalCart.map(item => (total += item.price));
+    dispatch({type: UPDATE_TOTAL_PRICE, payload: total})
+  },
+    [cart, totalPrice, dispatch]
+  );
 
   return (
-
     <div className={styles.constructorwrapper}>
 
-      <div className={styles.constructorelement}>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-        />
-      </div>
+      {/* Показываем заглушку если булок нет */}
+      <DropTarget>
+      {cart.filter(item => item.type === 'bun').length === 0 &&
+        <div className={styles.constructorelementtop}>
+          <span className="styles.constructor-element__row">
+            <span className="constructor-element__text">Добавьте булку</span>
+          </span>
+        </div>
+      }
 
+      {cart.map((item, index) => {
+        if (item.type === "bun" && item.bunType === "top") {
+          return (
+            <div key={item.uuid} className={styles.constructorelement}>
+              <ConstructorElement
+                type="top"
+                isLocked={true}
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </div>
+          )
+        }
+        return null
+      })
+      }
 
       <div className={styles.scrollablecontent}>
+
+        {/* Показываем заглушку если начинок нет */}
+
+        {cart.filter(item => item.type === 'main' || item.type === "sauce").length === 0 &&
+          <div className={styles.constructorelementmiddle}>
+            <span className="styles.constructor-element__row">
+              <span className="constructor-element__text">Добавьте начинку</span>
+            </span>
+          </div>
+        }
+
         <ul className={styles.list}>
-          {props.data.map((item, index) => {
-            if (item.type === "main") {
+          {cart.map((item, index) => {
+            if (item.type === "main" || item.type === "sauce") {
               return (
-                <li key={item._id} className={styles.listitem}>
-                  <div className={styles.drag}> <DragIcon type="primary" /></div>
-                  <div className={styles.constructorelement}>
-                    <ConstructorElement
-                      text={item.name}
-                      price={item.price}
-                      thumbnail={item.image}
-                    />
-                  </div>
-                </li>
+                <DraggableItem item={item}  key={item.uuid} index={index}/>
               )
             }
+            return null
           })
           }
         </ul>
       </div>
 
-      <div className={styles.constructorelement}>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-        />
-      </div>
+      {/* Показываем заглушку если булок нет */}
+
+      {cart.filter(item => item.type === 'bun').length === 0 &&
+        <div className={styles.constructorelementbottom}>
+          <span className="styles.constructor-element__row">
+            <span className="constructor-element__text">Добавьте булку</span>
+          </span>
+        </div>
+      }
+
+      {cart.map((item, index) => {
+        if (item.type === "bun" && item.bunType === "bottom") {
+          return (
+            <div key={item.uuid} className={styles.constructorelement}>
+              <ConstructorElement
+                type="bottom"
+                isLocked={true}
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </div>
+          )
+        }
+        return null
+      })
+      }
+      </DropTarget>
 
       <div id="checkout" className={styles.checkout}>
         <div id="total" className={styles.total}>
-          <p className="text text_type_digits-medium">300</p>
+          <p className="text text_type_digits-medium">{totalPrice}</p>
           <svg className="pl-4"
             xmlns="http://www.w3.org/2000/svg"
             width="40"
@@ -72,7 +129,7 @@ function BurgerConstructor(props) {
             <path d="M12.7142 20.9615C12.3221 21.3616 11.6779 21.3616 11.2858 20.9615L7.10635 16.6968C6.83068 16.4155 6.7458 15.9986 6.88954 15.6319L11.069 4.97004C11.4009 4.12332 12.5991 4.12333 12.931 4.97004L17.1105 15.6319C17.2542 15.9986 17.1693 16.4155 16.8937 16.6968L12.7142 20.9615Z" />
           </svg>
         </div>
-        <Button type="primary" size="large" onClick={() => { props.setModalState({ visible: true, content: 'total' }) }}>
+        <Button type="primary" size="large" onClick={() => { dispatch(sendOrder()) }}>
           Оформить заказ
         </Button>
       </div>
@@ -80,10 +137,5 @@ function BurgerConstructor(props) {
     </div>
   )
 }
-
-BurgerConstructor.propTypes = {
-  setModalState: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(ingredientTypes).isRequired
-};
 
 export default BurgerConstructor

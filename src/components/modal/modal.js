@@ -1,7 +1,4 @@
 import styles from './modal.module.css'
-import {
-  CloseIcon
-} from '@ya.praktikum/react-developer-burger-ui-components'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
@@ -12,9 +9,11 @@ const modalRoot = document.getElementById("react-modals");
 
 function Modal(props) {
 
+  const onClose = props.onClose;
+
   const handleCloseByEsc = (event) => {
     if (event.key === 'Escape') {
-      return props.setModalState({ visible: false })
+      return onClose()
     }
   }
 
@@ -23,14 +22,14 @@ function Modal(props) {
     return () => {
       document.removeEventListener('keydown', handleCloseByEsc);
     };
-  }, [handleCloseByEsc]);
+  });
 
   return ReactDOM.createPortal(
       <>
-        <ModalOverlay setModalState={props.setModalState} />
+        <ModalOverlay onClose={onClose}/>
         <div className={styles.modal}>
           <div className={styles.modalcontent} >
-            <ModalHeader setModalState={props.setModalState}>{props.header}</ModalHeader>
+            <ModalHeader onClose={onClose}>{props.header}</ModalHeader>
             {props.children}
           </div>
         </div>
@@ -40,8 +39,9 @@ function Modal(props) {
 }
 
 Modal.propTypes = {
-  setModalState: PropTypes.func.isRequired,
   header: PropTypes.string,
+  onClose: PropTypes.func.isRequired
 }
 
 export default Modal
+
