@@ -14,5 +14,19 @@ export const initialState = {
     dataFailed: false,
     orderRequest: false,
     orderFailed: false,
-    
+
+};
+
+export const initialAuthState = {
+    isLoggedIn: false,
+    userEmail: '',
+    userName: '',
+    accessToken: '',
+    refreshToken: '',
+    isLoggingIn: false,
+    logInFailed: false,
+    isRegistering: false,
+    registrationFailed: false,
+    isAuthLoaded: false,
+    logOutFailed: false,
 };
