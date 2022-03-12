@@ -9,11 +9,9 @@ import ingredientTypes from '../../utils/types.js'
 import {useDispatch, useSelector} from 'react-redux'
 import {SHOW_INGREDIENT_MODAL} from '../../services/actions'
 import {useDrag} from 'react-dnd'
-import { Switch, Route, useRouteMatch } from 'react-router-dom'
+import { useRouteMatch } from 'react-router-dom'
 
 function IngredientCard(props) {
-
-    const { path } = useRouteMatch();
 
     const dispatch = useDispatch();
     const cart  = useSelector(store => store.miscList.cart)
@@ -27,17 +25,12 @@ function IngredientCard(props) {
     }))
 
     return (
-        <Switch>
-        <Route path={`${path}/:chatId`}>
-        <div ref={drag} className={styles.card} onClick={() => { dispatch({type: SHOW_INGREDIENT_MODAL, payload: props.item})}}>
+     <div ref={drag} className={styles.card} onClick={() => { dispatch({type: SHOW_INGREDIENT_MODAL, payload: props.item})}}>
             <img src={props.item.image} alt={props.item.name} ></img>
             <p className={styles.itemprice}><span>{props.item.price}</span> <span className={`pl-2`}><CurrencyIcon type="primary" /></span></p>
             <p className={styles.itemname}>{props.item.name}</p>
             {cartItemCount && <Counter count={cartItemCount} size="default" />}
         </div>
-        </Route>
-    </Switch>
-
     )
 }
 
