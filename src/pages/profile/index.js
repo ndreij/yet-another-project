@@ -26,7 +26,7 @@ export function ProfilePage() {
 
     useEffect(() => {
         dispatch(getUserData())
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         setNameValue(newName)

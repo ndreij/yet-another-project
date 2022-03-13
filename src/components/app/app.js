@@ -11,7 +11,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { getIngredients } from '../../services/actions/async.js';
 import { HIDE_MODAL } from '../../services/actions'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import {
   LoginPage,
   RegisterPage,
@@ -21,7 +21,6 @@ import {
   ProfilePage,
   NotFound404
 } from '../../pages'
-
 import { ProtectedRoute } from './protectedroute.js'
 
 function App() {
@@ -29,17 +28,23 @@ function App() {
   const modalState = useSelector(state => state.miscList.modalState)
 
   const dispatch = useDispatch()
+  const history = useHistory();
 
   React.useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch])
 
   function onClose() {
+    history.goBack();
+    dispatch({ type: HIDE_MODAL })
+  }
+
+  function onOrderClose() {
     dispatch({ type: HIDE_MODAL })
   }
 
   return (
-    <Router>
+ <>
       <Switch>
         <Route path="/" exact={true}>
           <>
@@ -53,18 +58,6 @@ function App() {
                   <BurgerConstructor />
                 </div>
               </section>
-
-              {modalState.visible && modalState.content === 'total' &&
-                <Modal header={modalState.header} onClose={onClose}>
-                  <OrderDetails />
-                </Modal>
-              }
-
-              {modalState.visible && modalState.content === 'ingredient' &&
-                <Modal header={modalState.header} onClose={onClose}>
-                  <IngredientDetails item={modalState.item} />
-                </Modal>
-              }
             </DndProvider>
           </>
         </Route>
@@ -90,7 +83,22 @@ function App() {
           <NotFound404 />
         </Route>
       </Switch>
-    </Router>
+
+{modalState.visible && modalState.content === 'total' &&
+<Modal header={modalState.header} onClose={onOrderClose}>
+  <OrderDetails />
+</Modal>
+}
+
+{modalState.visible && modalState.content === 'ingredient' &&
+<Route path="/ingredients/:id">
+<Modal header={modalState.header} onClose={onClose}>
+  <IngredientDetails item={modalState.item} />
+</Modal>
+</Route>
+}
+</>
+
   );
 }
 

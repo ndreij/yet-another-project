@@ -1,6 +1,6 @@
 import { getAuth } from '../../services/actions/authactions.js';
 import { Route, Redirect } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
 export function ProtectedRoute({ children, ...rest }) {
@@ -8,13 +8,13 @@ export function ProtectedRoute({ children, ...rest }) {
     const isAuthLoaded = useSelector(state => state.auth.isAuthLoaded)
     const dispatch = useDispatch()
 
-    const init = () => {
+    const init = useCallback(() => {
         dispatch(getAuth());
-    };
+    }, [dispatch]);
 
     useEffect(() => {
         init();
-    }, []);
+    }, [init]);
 
     if (!isAuthLoaded) {
         return null;

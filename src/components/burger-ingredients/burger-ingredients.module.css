@@ -34,3 +34,9 @@
     composes: text text_type_main-default from global;
     text-align: center;
 }
+
+
+
+p {
+    color: #fff
+}

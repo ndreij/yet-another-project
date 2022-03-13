@@ -9,7 +9,7 @@ import ingredientTypes from '../../utils/types.js'
 import {useDispatch, useSelector} from 'react-redux'
 import {SHOW_INGREDIENT_MODAL} from '../../services/actions'
 import {useDrag} from 'react-dnd'
-import { useRouteMatch } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 function IngredientCard(props) {
 
@@ -25,20 +25,19 @@ function IngredientCard(props) {
     }))
 
     return (
+        <Link
+        to={`/ingredients/${id}`}>
      <div ref={drag} className={styles.card} onClick={() => { dispatch({type: SHOW_INGREDIENT_MODAL, payload: props.item})}}>
             <img src={props.item.image} alt={props.item.name} ></img>
             <p className={styles.itemprice}><span>{props.item.price}</span> <span className={`pl-2`}><CurrencyIcon type="primary" /></span></p>
             <p className={styles.itemname}>{props.item.name}</p>
-            {cartItemCount && <Counter count={cartItemCount} size="default" />}
+            {cartItemCount ? <Counter count={cartItemCount} size="default" /> : null}
         </div>
+        </Link>
     )
 }
 
 function BurgerIngredients() {
-
-    const { path } = useRouteMatch();
-    const match = useRouteMatch("/ingredients/:id");
-    console.log(match)
 
     const data = useSelector(state => state.miscList.data)
 

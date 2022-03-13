@@ -1,5 +1,5 @@
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import AppHeader from '../../components/app-header/app-header.js'
 import { Link, Redirect } from 'react-router-dom'
 import styles from '../pages.module.css';
@@ -21,13 +21,13 @@ export function RegisterPage () {
 
     const isAuthLoaded = useSelector(state => state.auth.isAuthLoaded)
 
-    const init = () => {
+    const init = useCallback(() => {
         dispatch(getAuth());
-    };
+    }, [dispatch]);
 
     useEffect(() => {
         init();
-    }, []);
+    }, [init]);
 
     if (!isAuthLoaded) {
         return null;

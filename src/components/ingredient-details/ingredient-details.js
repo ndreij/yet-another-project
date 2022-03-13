@@ -1,10 +1,12 @@
 import styles from './ingredient-details.module.css'
 import React from 'react';
-import {useSelector} from 'react-redux'
+import ingredientTypes from '../../utils/types.js'
 
 function IngredientDetails(props) {
 
-    const item = useSelector(state => state.miscList.modalState.item)
+//    const item = useSelector(state => state.miscList.modalState.item)
+
+    const item = props.item
 
     return (
         <div>
@@ -67,5 +69,9 @@ function IngredientDetails(props) {
         </div>
     )
 }
+
+IngredientDetails.propTypes = {
+    item: ingredientTypes.isRequired
+};
 
 export default IngredientDetails

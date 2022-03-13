@@ -16,7 +16,7 @@ import {
     FORGOT_PASSWORD_FAILED,
     RESET_PASSWORD,
     RESET_PASSWORD_SUCCESS,
-    RESET_PASSWORD_FAILURE
+    RESET_PASSWORD_FAILED
   } from '../actions';
   import { initialAuthState } from '../store.js'
 
@@ -127,6 +127,25 @@ import {
         }
 
         case FORGOT_PASSWORD_FAILED: {
+            return {
+                ...state,
+            };
+        }
+
+        case RESET_PASSWORD: {
+            return {
+                ...state,
+            }
+        }
+
+        case RESET_PASSWORD_SUCCESS: {
+            return {
+                ...state,
+
+            };
+        }
+
+        case RESET_PASSWORD_FAILED: {
             return {
                 ...state,
             };

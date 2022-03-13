@@ -16,7 +16,7 @@ import {
     FORGOT_PASSWORD_FAILED,
     RESET_PASSWORD,
     RESET_PASSWORD_SUCCESS,
-    RESET_PASSWORD_FAILURE
+    RESET_PASSWORD_FAILED
 } from '.';
 
 export function register(nameValue, emailValue, passValue) {
@@ -85,7 +85,6 @@ export function login(emailValue, passValue) {
             .then(checkResponse)
             .then(res => {
                 if (res && res.success) {
-                    console.log(res)
 
                     const accessToken = res.accessToken.split('Bearer ')[1];
                     const refreshToken = res.refreshToken
@@ -102,7 +101,6 @@ export function login(emailValue, passValue) {
                         email: res.user.email
                     })
                 } else {
-                    console.log(res)
                     dispatch({
                         type: LOGIN_FAILED
                     })
@@ -118,7 +116,7 @@ export function login(emailValue, passValue) {
 export function logout() {
 
     return function (dispatch) {
-        
+
         const refreshToken = getCookie('refreshToken')
 
         fetch(`${baseUrl}/auth/logout`, {
@@ -174,58 +172,78 @@ export function setCookie(name, value, props) {
 
 export function getCookie(name) {
     const matches = document.cookie.match(
+        // eslint-disable-next-line
         new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
     );
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
 export function getAuth() {
-    
+
     return function (dispatch) {
-        const refreshToken = getCookie('refreshToken')
-        if (!refreshToken) {
-            dispatch({
-                type: AUTH_FAILED
-            })
-        } else {
-            fetch(`${baseUrl}/auth/token`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    token: refreshToken
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
-                .then(checkResponse)
-                .then(res => {
-                    if (res && res.success) {
-                        console.log(res)
-
-                        const accessToken = res.accessToken.split('Bearer ')[1];
-                        const refreshToken = res.refreshToken
-                        if (accessToken) {
-                            setCookie('accessToken', accessToken);
-                        }
-                        if (refreshToken) {
-                            setCookie('refreshToken', refreshToken);
-                        }
-
-                        dispatch({
-                            type: AUTH_SUCCESS,
-                        })
-                    } else {
-                        console.log(res)
+        fetch(`${baseUrl}/auth/user`, {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + getCookie('accessToken')
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer'
+        })
+            .then(checkResponse)
+            .then(res => {
+                if (res && res.success) {
+                    dispatch({
+                        type: AUTH_SUCCESS,
+                    })
+                } else {
+                    const refreshToken = getCookie('refreshToken')
+                    if (!refreshToken) {
                         dispatch({
                             type: AUTH_FAILED
                         })
+                    } else {
+                        fetch(`${baseUrl}/auth/token`, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                token: refreshToken
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                        })
+                            .then(checkResponse)
+                            .then(res => {
+                                if (res && res.success) {
+
+                                    const accessToken = res.accessToken.split('Bearer ')[1];
+                                    const refreshToken = res.refreshToken
+                                    if (accessToken) {
+                                        setCookie('accessToken', accessToken);
+                                    }
+                                    if (refreshToken) {
+                                        setCookie('refreshToken', refreshToken);
+                                    }
+
+                                    dispatch({
+                                        type: AUTH_SUCCESS,
+                                    })
+                                } else {
+                                    dispatch({
+                                        type: AUTH_FAILED
+                                    })
+                                }
+                            }).catch(err => {
+                                dispatch({
+                                    type: AUTH_FAILED
+                                })
+                            })
                     }
-                }).catch(err => {
-                    dispatch({
-                        type: AUTH_FAILED
-                    })
-                })
-        }
+                }
+            });
     }
 }
 
@@ -246,14 +264,11 @@ export function getUserData() {
             .then(checkResponse)
             .then(res => {
                 if (res && res.success) {
-                    console.log(res)
                     dispatch({
                         type: SET_USER_DATA,
                         name: res.user.name,
                         email: res.user.email
                     })
-                } else { 
-
                 }
             });
     }
@@ -277,13 +292,12 @@ export function setUserData(nameValue, emailValue, passValue) {
             .then(checkResponse)
             .then(res => {
                 if (res && res.success) {
-                    console.log(res)
                     dispatch({
                         type: SET_USER_DATA,
                         name: res.user.name,
                         email: res.user.email
                     })
-                } else { 
+                } else {
 
                 }
             });
@@ -332,33 +346,28 @@ export function resetPassword(passValue, tokenValue) {
         dispatch({
             type: RESET_PASSWORD
         })
-console.log(JSON.stringify({
-    password: passValue,
-    token: tokenValue
-}))
+
         fetch(`${baseUrl}/password-reset/reset`, {
             method: 'POST',
-            body: JSON.stringify({password: passValue, token: tokenValue }),
+            body: JSON.stringify({ password: passValue, token: tokenValue }),
             headers: {
                 'Content-Type': 'application/json'
             },
         })
             .then(checkResponse)
             .then(res => {
-                console.log(res)
                 if (res && res.success) {
                     dispatch({
-                        type: FORGOT_PASSWORD_SUCCESS,
+                        type: RESET_PASSWORD_SUCCESS,
                     })
                 } else {
-                    console.log(res)
                     dispatch({
-                        type: FORGOT_PASSWORD_FAILED
+                        type: RESET_PASSWORD_FAILED
                     })
                 }
             }).catch(err => {
                 dispatch({
-                    type: FORGOT_PASSWORD_FAILED
+                    type: RESET_PASSWORD_FAILED
                 })
             })
     }
