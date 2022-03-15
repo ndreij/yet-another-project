@@ -6,16 +6,18 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import React, { useEffect, useRef } from 'react';
 import ingredientTypes from '../../utils/types.js'
-import {useDispatch, useSelector} from 'react-redux'
-import {SHOW_INGREDIENT_MODAL} from '../../services/actions'
-import {useDrag} from 'react-dnd'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { SHOW_INGREDIENT_MODAL } from '../../services/actions'
+import { useDrag } from 'react-dnd'
+import { Link, useLocation } from 'react-router-dom'
 
 function IngredientCard(props) {
 
     const dispatch = useDispatch();
-    const cart  = useSelector(store => store.miscList.cart)
+    const cart = useSelector(store => store.miscList.cart)
     const cartItemCount = cart.filter(item => item._id === props.item._id).length
+
+    let location = useLocation();
 
     const id = props.item._id
 
@@ -26,13 +28,16 @@ function IngredientCard(props) {
 
     return (
         <Link
-        to={`/ingredients/${id}`}>
-     <div ref={drag} className={styles.card} onClick={() => { dispatch({type: SHOW_INGREDIENT_MODAL, payload: props.item})}}>
-            <img src={props.item.image} alt={props.item.name} ></img>
-            <p className={styles.itemprice}><span>{props.item.price}</span> <span className={`pl-2`}><CurrencyIcon type="primary" /></span></p>
-            <p className={styles.itemname}>{props.item.name}</p>
-            {cartItemCount ? <Counter count={cartItemCount} size="default" /> : null}
-        </div>
+            to={{
+                pathname: `/ingredients/${id}`,
+                state: { background: location }
+            }} >
+            <div ref={drag} className={styles.card} onClick={() => { dispatch({ type: SHOW_INGREDIENT_MODAL, payload: props.item }) }}>
+                <img src={props.item.image} alt={props.item.name} ></img>
+                <p className={styles.itemprice}><span>{props.item.price}</span> <span className={`pl-2`}><CurrencyIcon type="primary" /></span></p>
+                <p className={styles.itemname}>{props.item.name}</p>
+                {cartItemCount ? <Counter count={cartItemCount} size="default" /> : null}
+            </div>
         </Link>
     )
 }
@@ -105,48 +110,48 @@ function BurgerIngredients() {
             </div>
             <div id="ingredientsList" className={styles.ingredients}>
                 <div id="one">
-                <h2 ref={one} className="pt-5 pb-6 text text_type_main-medium">Булки</h2>
-                <div className={styles.ingredientswrapper}>
-                    {data.length >= 0 && data.map((item) => {
-                        if (item.type === "bun") {
-                            return (
-                                <IngredientCard item={item} key={item._id} />
-                            )
+                    <h2 ref={one} className="pt-5 pb-6 text text_type_main-medium">Булки</h2>
+                    <div className={styles.ingredientswrapper}>
+                        {data.length >= 0 && data.map((item) => {
+                            if (item.type === "bun") {
+                                return (
+                                    <IngredientCard item={item} key={item._id} />
+                                )
+                            }
+                            return null
+                        })
                         }
-                        return null
-                    })
-                    }
-                </div>
+                    </div>
                 </div>
 
                 <div id="two">
-                <h2 id="two" ref={two} className="pt-5 pb-6 text text_type_main-medium">Соусы</h2>
-                <div className={styles.ingredientswrapper}>
-                    {data.length && data.map((item) => {
-                        if (item.type === "sauce") {
-                            return (
-                                <IngredientCard item={item} key={item._id} />
-                            )
+                    <h2 id="two" ref={two} className="pt-5 pb-6 text text_type_main-medium">Соусы</h2>
+                    <div className={styles.ingredientswrapper}>
+                        {data.length && data.map((item) => {
+                            if (item.type === "sauce") {
+                                return (
+                                    <IngredientCard item={item} key={item._id} />
+                                )
+                            }
+                            return null
+                        })
                         }
-                        return null
-                    })
-                    }
-                </div>
+                    </div>
                 </div>
 
                 <div id="three">
-                <h2 id="three" ref={three} className="pt-5 pb-6 text text_type_main-medium">Начинки</h2>
-                <div className={styles.ingredientswrapper}>
-                    {data.length > 0 && data.map((item) => {
-                        if (item.type === "main") {
-                            return (
-                                <IngredientCard item={item} key={item._id} />
-                            )
+                    <h2 id="three" ref={three} className="pt-5 pb-6 text text_type_main-medium">Начинки</h2>
+                    <div className={styles.ingredientswrapper}>
+                        {data.length > 0 && data.map((item) => {
+                            if (item.type === "main") {
+                                return (
+                                    <IngredientCard item={item} key={item._id} />
+                                )
+                            }
+                            return null
+                        })
                         }
-                        return null
-                    })
-                    }
-                </div>
+                    </div>
                 </div>
             </div>
         </>

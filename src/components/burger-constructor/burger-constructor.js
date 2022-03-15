@@ -147,7 +147,7 @@ function BurgerConstructor() {
           </svg>
         </div>
         {isLoggedIn ? 
-        <Button type="primary" size="large" onClick={() => { dispatch(sendOrder()) }}>
+        <Button disabled={cart.length === 0 ? true : false} type="primary" size="large" onClick={() => { dispatch(sendOrder()) }}>
           Оформить заказ
         </Button>
         :

@@ -1,13 +1,14 @@
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import AppHeader from '../../components/app-header/app-header.js'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, useLocation } from 'react-router-dom'
 import styles from '../pages.module.css'
 import { login } from 'services/actions/authactions.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAuth } from '../../services/actions/authactions.js'
 
 export function LoginPage () {
+
+    const location = useLocation()
 
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
 
@@ -32,14 +33,14 @@ export function LoginPage () {
     }
 
 if (isLoggedIn) {
-    return (<Redirect to='/' />)
+    return (<Redirect to={location.state.from.pathname} />)
 } else {
     return (
         <>
-        <AppHeader />
         <div className={styles.content}>
         <p className={styles.header}> Вход</p>
 
+        <form onSubmit={e => {e.preventDefault(); dispatch(login(emailValue, passValue)) }}>
         <div className="pb-6">
         <Input
             type={'email'}
@@ -72,10 +73,11 @@ if (isLoggedIn) {
 
 
         <div className="pb-20">
-        <Button type="primary" size="medium" onClick={() => dispatch(login(emailValue, passValue))}>
+        <Button type="primary" size="medium">
             Войти
         </Button>
         </div>
+        </form>
 
         <p className="text text_type_main-default pb-4">Вы — новый пользователь? <Link to='/register'>Зарегистрироваться</Link></p>
         <p className="text text_type_main-default">Забыли пароль? <Link to='/forgot-password'>Восстановить пароль</Link></p>

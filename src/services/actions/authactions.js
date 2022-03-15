@@ -131,6 +131,8 @@ export function logout() {
             .then(checkResponse)
             .then(res => {
                 if (res && res.success) {
+                    setCookie('accessToken', 'accessToken',0)
+                    setCookie('refreshToken', 'refreshToken',0)
                     dispatch({
                         type: LOGOUT_SUCCESS,
                     })

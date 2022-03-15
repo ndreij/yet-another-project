@@ -26,11 +26,12 @@ function AppHeader() {
                     </li>
                 </ul>
             </nav>
-            <Logo className="p-5" />
-
+            <Link to="/">
+                <Logo className="p-5" />
+            </Link>
             <NavLink to='/profile' className={styles.login} activeClassName={styles.activepane}>
-                    <ProfileIcon type="secondary" />
-                    <span className="text text_type_main-default pl-4">Личный кабинет   </span>
+                <ProfileIcon type="secondary" />
+                <span className="text text_type_main-default pl-4">Личный кабинет   </span>
             </NavLink>
 
 

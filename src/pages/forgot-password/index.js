@@ -1,6 +1,5 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import AppHeader from '../../components/app-header/app-header.js'
 import styles from '../pages.module.css';
 import { Link, Redirect } from 'react-router-dom'
 import { forgotPassword } from 'services/actions/authactions.js'
@@ -10,7 +9,7 @@ import { getAuth } from '../../services/actions/authactions.js'
 export function ForgotPasswordPage() {
 
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-
+    const isForgotPasswordEmailSent = useSelector(state => state.auth.isForgotPasswordEmailSent)
     const [emailValue, setEmailValue] = useState('')
     const inputRef = useRef(null)
     const dispatch = useDispatch();
@@ -29,15 +28,18 @@ export function ForgotPasswordPage() {
         return null;
     }
 
+    if (isForgotPasswordEmailSent) {
+        return (<Redirect to='/reset-password' />)
+    }
+
     if (isLoggedIn) {
         return (<Redirect to='/' />)
     } else {
         return (
             <>
-                <AppHeader />
                 <div className={styles.content}>
                     <p className={styles.header}> Восстановление пароля</p>
-
+                    <form onSubmit={e => {e.preventDefault(); dispatch(forgotPassword(emailValue)) }}>
                     <div className="pb-6">
                         <Input
                             type={'email'}
@@ -54,11 +56,14 @@ export function ForgotPasswordPage() {
                     </div>
 
                     <div className="text text_type_main-default pb-20">
-                        <Button type="primary" size="medium" onClick={() => dispatch(forgotPassword(emailValue))}>
+                       
+                        <Button type="primary" size="medium">
                             Восстановить
                         </Button>
+                       
                     </div>
-
+                    </form>
+                   
                     <p className="text text_type_main-default">Вспомнили пароль? <Link to='/login'>Войти</Link></p>
                 </div>
             </>

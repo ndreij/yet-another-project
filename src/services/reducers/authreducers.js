@@ -116,13 +116,14 @@ import {
         case FORGOT_PASSWORD: {
             return {
                 ...state,
+                isForgotPasswordEmailSent: false
             }
         }
 
         case FORGOT_PASSWORD_SUCCESS: {
             return {
                 ...state,
-
+                isForgotPasswordEmailSent: true
             };
         }
 
@@ -135,13 +136,14 @@ import {
         case RESET_PASSWORD: {
             return {
                 ...state,
+                isPasswordReset: false
             }
         }
 
         case RESET_PASSWORD_SUCCESS: {
             return {
                 ...state,
-
+                isPasswordReset: true
             };
         }
 

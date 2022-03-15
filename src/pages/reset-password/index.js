@@ -1,6 +1,5 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import AppHeader from '../../components/app-header/app-header.js'
 import styles from '../pages.module.css'
 import { Link, Redirect } from 'react-router-dom'
 import { resetPassword, getCookie } from 'services/actions/authactions.js'
@@ -10,6 +9,8 @@ import { getAuth } from '../../services/actions/authactions.js'
 export function ResetPasswordPage() {
 
     const isEmailSent = getCookie('emailSent')
+
+    const isPasswordReset = useSelector(state => state.auth.isPasswordReset)
 
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
 
@@ -36,10 +37,10 @@ export function ResetPasswordPage() {
     } else {
         return (
             <>
-                <AppHeader />
                 <div className={styles.content}>
                     <p className={styles.header}> Восстановление пароля</p>
 
+                    <form onSubmit={e => {e.preventDefault(); dispatch(resetPassword(passValue, tokenValue)) }}>
                     <div className="pb-6">
                         <Input
                             type={'password'}
@@ -71,12 +72,17 @@ export function ResetPasswordPage() {
                     </div>
 
                     <div className="pb-20">
-                        <Button type="primary" size="medium" onClick={() => dispatch(resetPassword(passValue, tokenValue))}>
+                        <Button type="primary" size="medium">
                             Восстановить
                         </Button>
                     </div>
-
+                    </form>
+                    {isPasswordReset ? 
+                    <p className="text text_type_main-default pb-4">Пароль обновлен <Link to='/login'>Войти</Link></p> 
+                    : 
                     <p className="text text_type_main-default pb-4">Вспомнили пароль? <Link to='/login'>Войти</Link></p>
+                    }
+                    
                 </div>
             </>
         )

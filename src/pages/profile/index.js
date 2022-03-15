@@ -1,6 +1,5 @@
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import React, { useState, useRef, useEffect } from 'react'
-import AppHeader from '../../components/app-header/app-header.js'
 import styles from '../pages.module.css'
 import { Link, NavLink } from 'react-router-dom'
 import { getUserData, setUserData, logout } from '../../services/actions/authactions.js'
@@ -36,7 +35,6 @@ export function ProfilePage() {
 
     return (
         <>
-            <AppHeader />
             <div className={styles.contentwrapper2}>
                 <div className={styles.contentwrapper}>
                     <div className={styles.links}>
@@ -48,7 +46,7 @@ export function ProfilePage() {
                         </div>
                     </div>
 
-
+                    <form onSubmit={e => {e.preventDefault(); dispatch(setUserData(nameValue, emailValue, passValue)) }}>
                     <div className={styles.profilecontent}>
                         <div className="pb-6">
                             <Input
@@ -97,15 +95,18 @@ export function ProfilePage() {
                         </div>
 
                         <div>
-                        <Button type="primary" size="medium" onClick={() => dispatch(setUserData(nameValue, emailValue, passValue))}>
+                        <Button type="primary" size="medium">
                             Сохранить
                         </Button>
+                        
 
                         <Button type="secondary" size="medium" onClick={() => resetCredentials()}>
                             Отмена
                         </Button>
                         </div>
+                        
                     </div>
+                    </form>
                 </div>
             </div>
         </>

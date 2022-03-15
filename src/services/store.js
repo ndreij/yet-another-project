@@ -29,4 +29,6 @@ export const initialAuthState = {
     registrationFailed: false,
     isAuthLoaded: false,
     logOutFailed: false,
+    isForgotPasswordEmailSent: false,
+    isPasswordReset: false
 };

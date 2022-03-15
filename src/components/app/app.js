@@ -11,7 +11,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { getIngredients } from '../../services/actions/async.js';
 import { HIDE_MODAL } from '../../services/actions'
-import { Switch, Route, useHistory } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import {
   LoginPage,
   RegisterPage,
@@ -21,9 +21,12 @@ import {
   ProfilePage,
   NotFound404
 } from '../../pages'
-import { ProtectedRoute } from './protectedroute.js'
+import { ProtectedRoute } from '../protected-route'
 
 function App() {
+
+  let location = useLocation();
+  let background = location.state && location.state.background;
 
   const modalState = useSelector(state => state.miscList.modalState)
 
@@ -45,10 +48,11 @@ function App() {
 
   return (
  <>
-      <Switch>
+             <AppHeader />
+      <Switch location={background || location}>
         <Route path="/" exact={true}>
           <>
-            <AppHeader />
+
             <DndProvider backend={HTML5Backend}>
               <section className={styles.content}>
                 <div className={styles.ingredients}>

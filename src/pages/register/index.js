@@ -1,6 +1,5 @@
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import AppHeader from '../../components/app-header/app-header.js'
 import { Link, Redirect } from 'react-router-dom'
 import styles from '../pages.module.css';
 import { register } from '../../services/actions/authactions.js'
@@ -38,10 +37,10 @@ export function RegisterPage () {
     } else {
     return (
         <>
-            <AppHeader />
             <div className={styles.content}>
                 <p className={styles.header}>Регистрация</p>
 
+                <form onSubmit={e => {e.preventDefault(); dispatch(register(nameValue, emailValue, passValue)) }}>
             <div className="pb-6">
             <Input 
                 type={'text'}
@@ -87,10 +86,11 @@ export function RegisterPage () {
             </div>
 
             <div className="text text_type_main-default pb-6">
-            <Button type="primary" size="medium" onClick={() => dispatch(register(nameValue, emailValue, passValue))}>
+            <Button type="primary" size="medium">
                 Зарегистрироваться
             </Button>
             </div>
+            </form>
 
             <p className="text text_type_main-default">Уже зарегистрированы? <Link to='/login'>Войти</Link></p>
         </div>
