@@ -32,8 +32,15 @@ export function LoginPage () {
         return null;
     }
 
+    let redirectPath = ''
+    if (location.state === undefined) {
+        redirectPath = '/';
+      } else {
+        redirectPath = location.state.from.pathname
+      }
+
 if (isLoggedIn) {
-    return (<Redirect to={location.state.from.pathname} />)
+    return (<Redirect to={redirectPath} />)
 } else {
     return (
         <>

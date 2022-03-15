@@ -152,7 +152,7 @@ function BurgerConstructor() {
         </Button>
         :
         <Link to="/login">
-        <Button type="primary" size="large">
+        <Button disabled={cart.length === 0 ? true : false} type="primary" size="large">
         Оформить заказ
       </Button>
       </Link>

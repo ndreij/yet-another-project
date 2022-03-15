@@ -11,7 +11,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { getIngredients } from '../../services/actions/async.js';
 import { HIDE_MODAL } from '../../services/actions'
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import {
   LoginPage,
   RegisterPage,
@@ -46,9 +46,18 @@ function App() {
     dispatch({ type: HIDE_MODAL })
   }
 
+  let match = useRouteMatch("/ingredients/:id");
+  const data = useSelector(state => state.miscList.data)
+  let itemFromURL = {};
+  data.length >= 0 && match && data.map((item) => {
+    if (item._id === match.params.id) {
+      itemFromURL = item
+    }
+  })
+
   return (
- <>
-             <AppHeader />
+    <>
+      <AppHeader />
       <Switch location={background || location}>
         <Route path="/" exact={true}>
           <>
@@ -88,20 +97,21 @@ function App() {
         </Route>
       </Switch>
 
-{modalState.visible && modalState.content === 'total' &&
-<Modal header={modalState.header} onClose={onOrderClose}>
-  <OrderDetails />
-</Modal>
-}
+      {modalState.visible && modalState.content === 'total' &&
+        <Modal header={modalState.header} onClose={onOrderClose}>
+          <OrderDetails />
+        </Modal>
+      }
 
-{modalState.visible && modalState.content === 'ingredient' &&
-<Route path="/ingredients/:id">
-<Modal header={modalState.header} onClose={onClose}>
-  <IngredientDetails item={modalState.item} />
-</Modal>
-</Route>
-}
-</>
+      {background && data.length > 0 &&
+        <Route path="/ingredients/:id">
+          <Modal header={"Детали ингредиента"} onClose={onClose}>
+            <IngredientDetails item={itemFromURL} />
+          </Modal>
+        </Route>
+      }
+
+    </>
 
   );
 }
