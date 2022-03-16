@@ -7,6 +7,7 @@ import {
   SEND_ORDER_SUCCESS,
 } from '.';
 import { baseUrl, checkResponse } from '../../api.js'
+import { getCookie } from './authactions.js'
 
 export function getIngredients() {
 
@@ -44,6 +45,8 @@ export function sendOrder() {
     const cartIds = cart.map(item => item._id);
     const wrappedCartIds = { ingredients: Object.values(cartIds) }
 
+    const token = 'Bearer ' + getCookie('accessToken')
+
     dispatch({
       type: SEND_ORDER
     })
@@ -51,7 +54,8 @@ export function sendOrder() {
       method: 'POST',
       body: JSON.stringify(wrappedCartIds),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: token
       },
     })
       .then(checkResponse)

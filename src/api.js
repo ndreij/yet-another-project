@@ -1,7 +1,9 @@
-const baseUrl = "https://norma.nomoreparties.space/api"
+export const baseUrl = "https://norma.nomoreparties.space/api"
 
-function checkResponse(response) {
+export function checkResponse(response) {
     if (response.ok) {
+        return response.json()
+      } else if (response.status === 403) {
         return response.json()
       } else if (response.status === 404) {
         return Promise.reject('Error 404')
@@ -10,4 +12,3 @@ function checkResponse(response) {
       }
 }
 
-export { baseUrl, checkResponse }

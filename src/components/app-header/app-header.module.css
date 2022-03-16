@@ -28,4 +28,13 @@ header {
     display: flex;
     flex-direction: row;
     align-items:center;
+    color: #8585AD
+}
+
+.login:hover {
+    color: #fff
+}
+
+.activepane {
+    color: #fff
 }

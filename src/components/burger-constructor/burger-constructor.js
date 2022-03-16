@@ -1,6 +1,6 @@
 import styles from './burger-constructor.module.css'
 import { ConstructorElement, Button } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux'
 import { 
   UPDATE_TOTAL_PRICE,
@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux'
 import { DraggableItem } from './draggable-item.js'
 import { DropTarget } from '../drop-target/drop-target.js'
 import { sendOrder } from '../../services/actions/async.js'
+import { getAuth } from '../../services/actions/authactions.js';
+import { Link } from 'react-router-dom'
 
 function BurgerConstructor() {
 
@@ -26,6 +28,21 @@ function BurgerConstructor() {
   },
     [cart, totalPrice, dispatch]
   );
+
+  const isAuthLoaded = useSelector(state => state.auth.isAuthLoaded)
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+
+  const init = useCallback(() => {
+      dispatch(getAuth());
+  }, [dispatch]);
+
+  useEffect(() => {
+      init();
+  }, [init]);
+
+  if (!isAuthLoaded) {
+      return null;
+  }
 
   return (
     <div className={styles.constructorwrapper}>
@@ -129,9 +146,17 @@ function BurgerConstructor() {
             <path d="M12.7142 20.9615C12.3221 21.3616 11.6779 21.3616 11.2858 20.9615L7.10635 16.6968C6.83068 16.4155 6.7458 15.9986 6.88954 15.6319L11.069 4.97004C11.4009 4.12332 12.5991 4.12333 12.931 4.97004L17.1105 15.6319C17.2542 15.9986 17.1693 16.4155 16.8937 16.6968L12.7142 20.9615Z" />
           </svg>
         </div>
-        <Button type="primary" size="large" onClick={() => { dispatch(sendOrder()) }}>
+        {isLoggedIn ? 
+        <Button disabled={cart.length === 0 ? true : false} type="primary" size="large" onClick={() => { dispatch(sendOrder()) }}>
           Оформить заказ
         </Button>
+        :
+        <Link to="/login">
+        <Button disabled={cart.length === 0 ? true : false} type="primary" size="large">
+        Оформить заказ
+      </Button>
+      </Link>
+}
       </div>
 
     </div>
