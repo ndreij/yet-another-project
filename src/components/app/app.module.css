@@ -12,7 +12,7 @@
     overflow: hidden;
 }
 
-.constructor {
+.burgerconstructor {
     composes: mt-25 ml-4 mr-4 from global;
     width: 50%;
     overflow: hidden;

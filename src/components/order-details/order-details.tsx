@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 function OrderDetails() {
 
-    const { orderNumber, orderRequest } = useSelector(state => state.miscList);
+    const { orderNumber, orderRequest } = useSelector((state: any) => state.miscList);
 
     return (
             <div className={styles.orderdetails}>

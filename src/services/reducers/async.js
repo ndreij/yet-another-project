@@ -7,7 +7,7 @@ import {
     SEND_ORDER_SUCCESS,
 } from '../actions';
 
-import { initialState } from '../store.js'
+import { initialState } from '../store'
 
 export const asyncReducer = (state = initialState, action) => {
   switch (action.type) {

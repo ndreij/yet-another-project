@@ -1,4 +1,4 @@
-import { baseUrl, checkResponse } from '../../api.js'
+import { baseUrl, checkResponse } from '../../api'
 import {
     REGISTER,
     REGISTER_FAILED,

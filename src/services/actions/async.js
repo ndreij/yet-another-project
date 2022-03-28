@@ -6,9 +6,8 @@ import {
   SEND_ORDER_FAILED,
   SEND_ORDER_SUCCESS,
 } from '.';
-import { baseUrl, checkResponse } from '../../api.js'
-import { getCookie } from './authactions.js'
-
+import { baseUrl, checkResponse } from '../../api'
+import { getCookie } from './authactions'
 export function getIngredients() {
 
   return function (dispatch) {

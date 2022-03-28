@@ -12,7 +12,7 @@ import {
     SEND_ORDER_FAILED,
     SEND_ORDER_SUCCESS,
 } from "../actions";
-import { initialState } from '../store.js'
+import { initialState } from '../store'
 
 export const miscReducer = (state = initialState, action) => {
     switch (action.type) {

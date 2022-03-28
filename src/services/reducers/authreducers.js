@@ -18,7 +18,7 @@ import {
     RESET_PASSWORD_SUCCESS,
     RESET_PASSWORD_FAILED
   } from '../actions';
-  import { initialAuthState } from '../store.js'
+  import { initialAuthState } from '../store'
 
   export const authReducer = (state = initialAuthState, action) => {
     switch (action.type) {

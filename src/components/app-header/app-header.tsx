@@ -27,7 +27,7 @@ function AppHeader() {
                 </ul>
             </nav>
             <Link to="/">
-                <Logo className="p-5" />
+                <Logo/>
             </Link>
             <NavLink to='/profile' className={styles.login} activeClassName={styles.activepane}>
                 <ProfileIcon type="secondary" />

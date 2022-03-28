@@ -9,9 +9,15 @@ import {Provider} from 'react-redux'
 import thunk from 'redux-thunk';
 import { BrowserRouter as Router } from "react-router-dom";
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true})
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     : compose; 
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));

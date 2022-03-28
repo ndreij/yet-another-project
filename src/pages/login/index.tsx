@@ -2,15 +2,14 @@ import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burg
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import styles from '../pages.module.css'
-import { login } from 'services/actions/authactions.js'
+import { login, getAuth } from 'services/actions/authactions'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAuth } from '../../services/actions/authactions.js'
 
 export function LoginPage () {
 
-    const location = useLocation()
+    const location = useLocation<any>()
 
-    const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector((state: any) => state.auth.isLoggedIn)
 
     const [emailValue, setEmailValue] = useState('')
     const [passValue, setPassValue] = useState('')
@@ -18,7 +17,7 @@ export function LoginPage () {
 
     const dispatch = useDispatch();
 
-    const isAuthLoaded = useSelector(state => state.auth.isAuthLoaded)
+    const isAuthLoaded = useSelector((state: any) => state.auth.isAuthLoaded)
 
     const init = useCallback(() => {
         dispatch(getAuth());
@@ -57,7 +56,7 @@ if (isLoggedIn) {
             value={emailValue}
             name={'E-mail'}
             error={false}
-            innerRef={inputRef}
+            ref={inputRef}
             errorText={'Ошибка'}
             size={'default'}
         />
@@ -65,15 +64,9 @@ if (isLoggedIn) {
 
         <div className="pb-6">
         <PasswordInput
-            type={'password'}
-            placeholder={'Пароль'}
             onChange={e => setPassValue(e.target.value)}
-            icon={'ShowIcon'}
             value={passValue}
             name={'Пароль'}
-            error={false}
-            innerRef={inputRef}
-            errorText={'Ошибка'}
             size={'default'}
         />
         </div>
