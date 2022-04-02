@@ -2,19 +2,18 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import styles from '../pages.module.css';
 import { Link, Redirect } from 'react-router-dom'
-import { forgotPassword } from 'services/actions/authactions.js'
+import { forgotPassword, getAuth } from 'services/actions/authactions'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAuth } from '../../services/actions/authactions.js'
 
 export function ForgotPasswordPage() {
 
-    const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-    const isForgotPasswordEmailSent = useSelector(state => state.auth.isForgotPasswordEmailSent)
+    const isLoggedIn = useSelector((state: any) => state.auth.isLoggedIn)
+    const isForgotPasswordEmailSent = useSelector((state: any) => state.auth.isForgotPasswordEmailSent)
     const [emailValue, setEmailValue] = useState('')
     const inputRef = useRef(null)
     const dispatch = useDispatch();
 
-    const isAuthLoaded = useSelector(state => state.auth.isAuthLoaded)
+    const isAuthLoaded = useSelector((state: any) => state.auth.isAuthLoaded)
 
     const init = useCallback(() => {
         dispatch(getAuth());

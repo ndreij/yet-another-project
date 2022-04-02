@@ -6,31 +6,32 @@ import {
   UPDATE_TOTAL_PRICE,
 } from '../../services/actions'
 import { useSelector } from 'react-redux'
-import { DraggableItem } from './draggable-item.js'
-import { DropTarget } from '../drop-target/drop-target.js'
-import { sendOrder } from '../../services/actions/async.js'
-import { getAuth } from '../../services/actions/authactions.js';
+import { DraggableItem } from './draggable-item'
+import { DropTarget } from '../drop-target/drop-target'
+import { sendOrder } from '../../services/actions/async'
+import { getAuth } from '../../services/actions/authactions';
 import { Link } from 'react-router-dom'
+import { cartItem } from "../../utils/types"
 
 function BurgerConstructor() {
 
-  const cart = useSelector(store => store.miscList.cart)
+  const cart = useSelector((state: any) => state.miscList.cart)
 
-  const {totalPrice} = useSelector(state => state.miscList);
+  const {totalPrice} = useSelector((state: any) => state.miscList);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     let total = 0;
     let totalCart = cart;
-    totalCart.map(item => (total += item.price));
+    totalCart.map((item: cartItem) => (total += item.price));
     dispatch({type: UPDATE_TOTAL_PRICE, payload: total})
   },
     [cart, totalPrice, dispatch]
   );
 
-  const isAuthLoaded = useSelector(state => state.auth.isAuthLoaded)
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+  const isAuthLoaded = useSelector((state: any) => state.auth.isAuthLoaded)
+  const isLoggedIn = useSelector((state: any) => state.auth.isLoggedIn)
 
   const init = useCallback(() => {
       dispatch(getAuth());
@@ -49,7 +50,7 @@ function BurgerConstructor() {
 
       {/* Показываем заглушку если булок нет */}
       <DropTarget>
-      {cart.filter(item => item.type === 'bun').length === 0 &&
+      {cart.filter((item: cartItem)  => item.type === 'bun').length === 0 &&
         <div className={styles.constructorelementtop}>
           <span className="styles.constructor-element__row">
             <span className="constructor-element__text">Добавьте булку</span>
@@ -57,7 +58,7 @@ function BurgerConstructor() {
         </div>
       }
 
-      {cart.map((item, index) => {
+      {cart.map((item: cartItem, index: number) => {
         if (item.type === "bun" && item.bunType === "top") {
           return (
             <div key={item.uuid} className={styles.constructorelement}>
@@ -79,7 +80,7 @@ function BurgerConstructor() {
 
         {/* Показываем заглушку если начинок нет */}
 
-        {cart.filter(item => item.type === 'main' || item.type === "sauce").length === 0 &&
+        {cart.filter((item: cartItem) => item.type === 'main' || item.type === "sauce").length === 0 &&
           <div className={styles.constructorelementmiddle}>
             <span className="styles.constructor-element__row">
               <span className="constructor-element__text">Добавьте начинку</span>
@@ -88,7 +89,7 @@ function BurgerConstructor() {
         }
 
         <ul className={styles.list}>
-          {cart.map((item, index) => {
+          {cart.map((item: cartItem, index: number) => {
             if (item.type === "main" || item.type === "sauce") {
               return (
                 <DraggableItem item={item}  key={item.uuid} index={index}/>
@@ -102,7 +103,7 @@ function BurgerConstructor() {
 
       {/* Показываем заглушку если булок нет */}
 
-      {cart.filter(item => item.type === 'bun').length === 0 &&
+      {cart.filter((item: cartItem) => item.type === 'bun').length === 0 &&
         <div className={styles.constructorelementbottom}>
           <span className="styles.constructor-element__row">
             <span className="constructor-element__text">Добавьте булку</span>
@@ -110,7 +111,7 @@ function BurgerConstructor() {
         </div>
       }
 
-      {cart.map((item, index) => {
+      {cart.map((item: cartItem, index: number) => {
         if (item.type === "bun" && item.bunType === "bottom") {
           return (
             <div key={item.uuid} className={styles.constructorelement}>

@@ -1,6 +1,6 @@
 export const baseUrl = "https://norma.nomoreparties.space/api"
 
-export function checkResponse(response) {
+export function checkResponse(response: Response) {
     if (response.ok) {
         return response.json()
       } else if (response.status === 403) {

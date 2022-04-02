@@ -1,20 +1,21 @@
 import styles from './ingredient-details.module.css'
-import React from 'react';
-import ingredientTypes from '../../utils/types.js'
+import { FC } from 'react'
+import { Item } from '../../utils/types'
 
-function IngredientDetails(props) {
+interface ingredientDetailsProps {
+    item: Item | null,
+    key?: string
+}
 
-//    const item = useSelector(state => state.miscList.modalState.item)
+export const IngredientDetails: FC<ingredientDetailsProps> = (props) => {
 
-    const item = props.item
-
-    return (
+    return ( props.item &&
         <div>
             <div className={styles.imagecontainer}>
-                <img src={item.image_large} alt={item.name} />
+                <img src={props.item.image_large} alt={props.item.name} />
             </div>
             <p className={styles.name}>
-                {item.name}
+                {props.item.name}
             </p>
             <div className={styles.row}>
                 <div className={styles.column}>
@@ -24,7 +25,7 @@ function IngredientDetails(props) {
                     </p>
 
                     <p className={styles.details}>
-                        {item.calories}
+                        {props.item.calories}
                     </p>
 
                 </div>
@@ -36,7 +37,7 @@ function IngredientDetails(props) {
                     </p>
 
                     <p className={styles.details}>
-                        {item.proteins}
+                        {props.item.proteins}
                     </p>
 
                 </div>
@@ -48,7 +49,7 @@ function IngredientDetails(props) {
                     </p>
 
                     <p className={styles.details}>
-                        {item.fat}
+                        {props.item.fat}
                     </p>
 
                 </div>
@@ -60,7 +61,7 @@ function IngredientDetails(props) {
                     </p>
 
                     <p className={styles.details}>
-                        {item.carbohydrates}
+                        {props.item.carbohydrates}
                     </p>
 
                 </div>
@@ -69,9 +70,5 @@ function IngredientDetails(props) {
         </div>
     )
 }
-
-IngredientDetails.propTypes = {
-    item: ingredientTypes.isRequired
-};
 
 export default IngredientDetails

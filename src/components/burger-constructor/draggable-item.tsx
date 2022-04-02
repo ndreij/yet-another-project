@@ -3,24 +3,28 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 import { useDispatch } from 'react-redux'
 import { REMOVE_ITEM_FROM_CART, MOVE_CARD } from '../../services/actions'
 import { useSelector } from 'react-redux'
-import { useRef} from 'react'
+import { useRef, FC } from 'react'
 import { useDrag, useDrop } from "react-dnd";
-import ingredientTypes from '../../utils/types.js'
-import PropTypes from 'prop-types';
+import { cartItem } from '../../utils/types'
 
-export function DraggableItem ({ item, index }) {
-  const id = item.uuid
+interface draggableItemProps {
+  item: cartItem, 
+  index: number 
+}
+
+export const DraggableItem: FC<draggableItemProps> = ( props ) => {
+  const id = props.item.uuid
 
   const dispatch = useDispatch();
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement | null>(null)
 
-  function handleClose(id) {
+  function handleClose(id: string) {
     dispatch({type: REMOVE_ITEM_FROM_CART, payload: id})
   }
 
-const cart = useSelector(state => state.miscList.cart)
+const cart = useSelector((state: any) => state.miscList.cart)
 
-const moveCard = (dragIndex, hoverIndex) => {
+const moveCard = (dragIndex: number, hoverIndex: number) => {
 
   const dragCard = cart[dragIndex]
   const newCards = [...cart]
@@ -40,25 +44,28 @@ const [, drop] = useDrop({
       if (!ref.current) {
           return;
       }
-      const dragIndex = item.index;
-      const hoverIndex = index;
+      const dragIndex = props.item.index ? props.item.index : 0;
+      const hoverIndex = props.index;
 
       if (dragIndex === hoverIndex) {
           return;
       }
 
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect = ref.current.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      let hoverClientY = 0
+      if (clientOffset !== null) {
+        hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      }
+      if (dragIndex && dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
           return;
       }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      if (dragIndex && dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
           return;
       }
       moveCard(dragIndex, hoverIndex);
-      item.index = hoverIndex;
+      props.item.index = hoverIndex;
   },
 });
 
@@ -67,7 +74,7 @@ const [{opacity}, drag, preview] = useDrag({
   collect: (monitor) => ({
     opacity: monitor.isDragging() ? 0 : 1}),
   item: () => {
-    return { id, index }
+    return { id }
   },
 })
 
@@ -78,17 +85,12 @@ drag(drop(ref));
       <div className={styles.drag} ref={ref}> <DragIcon type="primary" /></div>
       <div className={styles.constructorelement}>
         <ConstructorElement
-          text={item.name}
-          price={item.price}
-          thumbnail={item.image}
-          handleClose={() => handleClose(item.uuid)}
+          text={props.item.name}
+          price={props.item.price}
+          thumbnail={props.item.image}
+          handleClose={() => handleClose(props.item.uuid)}
         />
       </div>
     </li>
   )
 }
-
-DraggableItem.propTypes = {
-  item: ingredientTypes.isRequired,
-  index: PropTypes.number.isRequired,
-};

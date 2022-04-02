@@ -5,19 +5,23 @@ import {
     CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import React, { useEffect, useRef } from 'react';
-import ingredientTypes from '../../utils/types.js'
+import { Item } from '../../utils/types'
 import { useDispatch, useSelector } from 'react-redux'
 import { SHOW_INGREDIENT_MODAL } from '../../services/actions'
 import { useDrag } from 'react-dnd'
 import { Link, useLocation } from 'react-router-dom'
 
-function IngredientCard(props) {
+interface IIngredientProps {
+    item: Item;
+  }
+
+function IngredientCard(props: IIngredientProps) {
 
     const dispatch = useDispatch();
-    const cart = useSelector(store => store.miscList.cart)
-    const cartItemCount = cart.filter(item => item._id === props.item._id).length
+    const cart = useSelector((store: any) => store.miscList.cart)
+    const cartItemCount = cart.filter((item: Item) => item._id === props.item._id).length
 
-    let location = useLocation();
+    let location = useLocation<any>();
 
     const id = props.item._id
 
@@ -44,26 +48,26 @@ function IngredientCard(props) {
 
 function BurgerIngredients() {
 
-    const data = useSelector(state => state.miscList.data)
+    const data = useSelector((state: any) => state.miscList.data)
 
     const [current, setCurrent] = React.useState('one');
 
-    const one = useRef(null);
-    const two = useRef(null);
-    const three = useRef(null);
+    const one = useRef<HTMLDivElement | null>(null);
+    const two = useRef<HTMLDivElement | null>(null);
+    const three = useRef<HTMLDivElement | null>(null);
 
-    const scrollToOne = (section) => {
-        one.current.scrollIntoView({ behavior: "smooth" });
+    const scrollToOne = (section: string) => {
+        one.current && one.current.scrollIntoView({ behavior: "smooth" });
         setCurrent(section);
     }
 
-    const scrollToTwo = (section) => {
-        two.current.scrollIntoView({ behavior: "smooth" });
+    const scrollToTwo = (section: string) => {
+        two.current && two.current.scrollIntoView({ behavior: "smooth" });
         setCurrent(section);
     }
 
-    const scrollToThree = (section) => {
-        three.current.scrollIntoView({ behavior: "smooth" });
+    const scrollToThree = (section: string) => {
+        three.current && three.current.scrollIntoView({ behavior: "smooth" });
         setCurrent(section);
     }
 
@@ -77,8 +81,8 @@ function BurgerIngredients() {
             threshold: 0.3
         }
 
-        let callback = (entries, observer) => {
-            entries.forEach(entry => {
+        let callback = (entries: { isIntersecting: any; target: { id: React.SetStateAction<string>; }; }[], observer: any) => {
+            entries.forEach((entry: { isIntersecting: any; target: { id: React.SetStateAction<string>; }; }) => {
                 if (entry.isIntersecting) {
                     setCurrent(entry.target.id);
                 }
@@ -86,9 +90,9 @@ function BurgerIngredients() {
         }
 
         let observer = new IntersectionObserver(callback, options);
-        let target1 = document.querySelector('#one');
-        let target2 = document.querySelector('#two');
-        let target3 = document.querySelector('#three');
+        let target1 = document.querySelector('#one') as HTMLElement;
+        let target2 = document.querySelector('#two') as HTMLElement;
+        let target3 = document.querySelector('#three') as HTMLElement;
         observer.observe(target1);
         observer.observe(target2);
         observer.observe(target3);
@@ -112,7 +116,7 @@ function BurgerIngredients() {
                 <div id="one">
                     <h2 ref={one} className="pt-5 pb-6 text text_type_main-medium">Булки</h2>
                     <div className={styles.ingredientswrapper}>
-                        {data.length >= 0 && data.map((item) => {
+                        {data.length >= 0 && data.map((item: Item) => {
                             if (item.type === "bun") {
                                 return (
                                     <IngredientCard item={item} key={item._id} />
@@ -127,7 +131,7 @@ function BurgerIngredients() {
                 <div id="two">
                     <h2 id="two" ref={two} className="pt-5 pb-6 text text_type_main-medium">Соусы</h2>
                     <div className={styles.ingredientswrapper}>
-                        {data.length && data.map((item) => {
+                        {data.length && data.map((item: Item) => {
                             if (item.type === "sauce") {
                                 return (
                                     <IngredientCard item={item} key={item._id} />
@@ -142,7 +146,7 @@ function BurgerIngredients() {
                 <div id="three">
                     <h2 id="three" ref={three} className="pt-5 pb-6 text text_type_main-medium">Начинки</h2>
                     <div className={styles.ingredientswrapper}>
-                        {data.length > 0 && data.map((item) => {
+                        {data.length > 0 && data.map((item: Item) => {
                             if (item.type === "main") {
                                 return (
                                     <IngredientCard item={item} key={item._id} />
@@ -157,10 +161,5 @@ function BurgerIngredients() {
         </>
     )
 }
-
-IngredientCard.propTypes = {
-    item: ingredientTypes.isRequired
-};
-
 
 export default BurgerIngredients

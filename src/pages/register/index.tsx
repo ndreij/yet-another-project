@@ -2,13 +2,13 @@ import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burg
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import styles from '../pages.module.css';
-import { register } from '../../services/actions/authactions.js'
+import { register } from '../../services/actions/authactions'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAuth } from '../../services/actions/authactions.js'
+import { getAuth } from '../../services/actions/authactions'
 
 export function RegisterPage () {
 
-    const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector((state: any) => state.auth.isLoggedIn)
 
     const [nameValue, setNameValue] = useState('')
     const [emailValue, setEmailValue] = useState('')
@@ -18,7 +18,7 @@ export function RegisterPage () {
 
     const dispatch = useDispatch();
 
-    const isAuthLoaded = useSelector(state => state.auth.isAuthLoaded)
+    const isAuthLoaded = useSelector((state: any) => state.auth.isAuthLoaded)
 
     const init = useCallback(() => {
         dispatch(getAuth());
@@ -50,7 +50,7 @@ export function RegisterPage () {
                 value={nameValue}
                 name={'Имя'}
                 error={false}
-                innerRef={inputRef}
+                ref={inputRef}
                 errorText={'Ошибка'}
                 size={'default'}
             />
@@ -65,7 +65,7 @@ export function RegisterPage () {
                 value={emailValue}
                 name={'E-mail'}
                 error={false}
-                innerRef={inputRef}
+                ref={inputRef}
                 errorText={'Ошибка'}
                 size={'default'}
             />
@@ -73,14 +73,9 @@ export function RegisterPage () {
 
             <div className="pb-20">
             <PasswordInput
-                type={'password'}
-                placeholder={'Пароль'}
                 onChange={e => setPassValue(e.target.value)}
                 value={passValue}
                 name={'Пароль'}
-                error={false}
-                innerRef={inputRef}
-                errorText={'Ошибка'}
                 size={'default'}
             />
             </div>

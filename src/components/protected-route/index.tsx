@@ -1,11 +1,15 @@
-import { getAuth } from '../../services/actions/authactions.js';
+import { getAuth } from '../../services/actions/authactions';
 import { Route, Redirect, useLocation } from 'react-router-dom';
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
-export function ProtectedRoute({ children, ...rest }) {
-    const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-    const isAuthLoaded = useSelector(state => state.auth.isAuthLoaded)
+interface ProtectedRouteProps {
+    path: string
+}
+
+export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, ...rest }) => {
+    const isLoggedIn = useSelector((state: any) => state.auth.isLoggedIn)
+    const isAuthLoaded = useSelector((state: any) => state.auth.isAuthLoaded)
     const dispatch = useDispatch()
     const location = useLocation()
 

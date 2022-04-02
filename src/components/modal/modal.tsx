@@ -1,17 +1,21 @@
 import styles from './modal.module.css'
-import React from 'react';
+import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import ModalOverlay from '../modal-overlay/modal-overlay.js'
-import ModalHeader from '../modal-header/modal-header.js'
+import { ModalOverlay } from '../modal-overlay/modal-overlay'
+import { ModalHeader } from '../modal-header/modal-header'
 
-const modalRoot = document.getElementById("react-modals");
+const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
-function Modal(props) {
+interface modalProps {
+  header: string,
+  onClose: Function
+}
+
+export const Modal: FC<modalProps> = (props) => {
 
   const onClose = props.onClose;
 
-  const handleCloseByEsc = (event) => {
+  const handleCloseByEsc = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       return onClose()
     }
@@ -37,11 +41,4 @@ function Modal(props) {
     modalRoot
   );
 }
-
-Modal.propTypes = {
-  header: PropTypes.string,
-  onClose: PropTypes.func.isRequired
-}
-
-export default Modal
 
