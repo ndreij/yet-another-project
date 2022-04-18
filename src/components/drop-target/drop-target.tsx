@@ -1,14 +1,14 @@
 import { FC } from 'React'
 import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from 'react-redux'
-import { UPDATE_CART } from "../../services/actions";
+import { useSelector, useDispatch } from '../../services/hooks';
+import { UPDATE_CART } from "../../services/constants";
 import { v4 as uuidv4 } from 'uuid'
 import { cartItem } from '../../utils/types'
 
 export const DropTarget: FC = ( props ) => {
 
     const dispatch = useDispatch()
-    const data = useSelector((store: any) => store.miscList.data)
+    const data = useSelector((store) => store.miscList.data)
 
     function updateCartWithUUID(items: Array<cartItem>) {
         const newItems = items.flat().map(item => {

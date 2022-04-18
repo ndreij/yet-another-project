@@ -1,4 +1,4 @@
-import { UPDATE_TYPE, MOVE_INGREDIENT, SORT_COMPONENT, MOVE_CARD } from "../actions";
+import { UPDATE_TYPE, MOVE_INGREDIENT, SORT_COMPONENT, MOVE_CARD } from "../constants";
 
 
 const initialState = {

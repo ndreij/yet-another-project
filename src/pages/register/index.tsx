@@ -2,13 +2,13 @@ import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burg
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import styles from '../pages.module.css';
-import { register } from '../../services/actions/authactions'
-import { useDispatch, useSelector } from 'react-redux'
-import { getAuth } from '../../services/actions/authactions'
+import { register } from '../../services/actions'
+import { useSelector, useDispatch } from '../../services/hooks';
+import { getAuth } from '../../services/actions'
 
 export function RegisterPage () {
 
-    const isLoggedIn = useSelector((state: any) => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
 
     const [nameValue, setNameValue] = useState('')
     const [emailValue, setEmailValue] = useState('')
@@ -18,7 +18,7 @@ export function RegisterPage () {
 
     const dispatch = useDispatch();
 
-    const isAuthLoaded = useSelector((state: any) => state.auth.isAuthLoaded)
+    const isAuthLoaded = useSelector((state) => state.auth.isAuthLoaded)
 
     const init = useCallback(() => {
         dispatch(getAuth());

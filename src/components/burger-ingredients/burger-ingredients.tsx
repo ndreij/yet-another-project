@@ -6,8 +6,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import React, { useEffect, useRef } from 'react';
 import { Item } from '../../utils/types'
-import { useDispatch, useSelector } from 'react-redux'
-import { SHOW_INGREDIENT_MODAL } from '../../services/actions'
+import { useSelector, useDispatch } from '../../services/hooks';
+import { SHOW_INGREDIENT_MODAL } from '../../services/constants'
 import { useDrag } from 'react-dnd'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -18,7 +18,7 @@ interface IIngredientProps {
 function IngredientCard(props: IIngredientProps) {
 
     const dispatch = useDispatch();
-    const cart = useSelector((store: any) => store.miscList.cart)
+    const cart = useSelector((store) => store.miscList.cart)
     const cartItemCount = cart.filter((item: Item) => item._id === props.item._id).length
 
     let location = useLocation<any>();
@@ -48,7 +48,7 @@ function IngredientCard(props: IIngredientProps) {
 
 function BurgerIngredients() {
 
-    const data = useSelector((state: any) => state.miscList.data)
+    const data = useSelector((state) => state.miscList.data)
 
     const [current, setCurrent] = React.useState('one');
 

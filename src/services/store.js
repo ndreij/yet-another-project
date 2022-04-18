@@ -1,3 +1,4 @@
+
 export const initialState = {
     orderNumber: 0,
     totalPrice: 0,
@@ -15,9 +16,6 @@ export const initialState = {
     orderRequest: false,
     orderFailed: false,
 
-};
-
-export const initialAuthState = {
     isLoggedIn: false,
     userEmail: '',
     userName: '',

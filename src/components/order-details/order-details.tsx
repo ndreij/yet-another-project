@@ -3,12 +3,12 @@ import {
     CheckMarkIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
  
 
 function OrderDetails() {
 
-    const { orderNumber, orderRequest } = useSelector((state: any) => state.miscList);
+    const { orderNumber, orderRequest } = useSelector((state) => state.miscList);
 
     return (
             <div className={styles.orderdetails}>

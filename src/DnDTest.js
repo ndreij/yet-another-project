@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useCallback } from 'react'
 import { DndProvider } from "react-dnd";
 import { useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../services/hooks';
 import { UPDATE_TYPE, MOVE_INGREDIENT, SORT_COMPONENT } from "./services/actions";
 import update from 'immutability-helper';
 

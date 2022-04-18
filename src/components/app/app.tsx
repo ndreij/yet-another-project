@@ -6,11 +6,11 @@ import React from 'react'
 import { Modal } from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
 import IngredientDetails from '../ingredient-details/ingredient-details'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../../services/hooks';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { getIngredients } from '../../services/actions/async';
-import { HIDE_MODAL } from '../../services/actions'
+import { getIngredients } from '../../services/actions';
+import { HIDE_MODAL } from '../../services/constants'
 import { Switch, Route, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import {
   LoginPage,
@@ -29,7 +29,7 @@ function App() {
   let location  = useLocation<any>();
   let background = location.state && location.state.background;
 
-  const modalState = useSelector((state: any) => state.miscList.modalState)
+  const modalState = useSelector((state) => state.miscList.modalState)
 
   const dispatch = useDispatch()
   const history = useHistory();
@@ -52,7 +52,7 @@ function App() {
   }
 
   let match = useRouteMatch<MatchParams>("/ingredients/:id");
-  const data = useSelector((state: any) => state.miscList.data)
+  const data = useSelector((state) => state.miscList.data)
   let itemFromURL: Item | null = null;
   data.length >= 0 && match && data.forEach((item: Item) => {
     if (item._id === match?.params.id) {

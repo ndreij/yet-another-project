@@ -1,8 +1,7 @@
 import styles from './burger-constructor.module.css'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useDispatch } from 'react-redux'
-import { REMOVE_ITEM_FROM_CART, MOVE_CARD } from '../../services/actions'
-import { useSelector } from 'react-redux'
+import { REMOVE_ITEM_FROM_CART, MOVE_CARD } from '../../services/constants'
+import { useSelector, useDispatch } from '../../services/hooks';
 import { useRef, FC } from 'react'
 import { useDrag, useDrop } from "react-dnd";
 import { cartItem } from '../../utils/types'
@@ -22,7 +21,7 @@ export const DraggableItem: FC<draggableItemProps> = ( props ) => {
     dispatch({type: REMOVE_ITEM_FROM_CART, payload: id})
   }
 
-const cart = useSelector((state: any) => state.miscList.cart)
+const cart = useSelector((state) => state.miscList.cart)
 
 const moveCard = (dragIndex: number, hoverIndex: number) => {
 

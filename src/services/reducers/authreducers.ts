@@ -17,10 +17,14 @@ import {
     RESET_PASSWORD,
     RESET_PASSWORD_SUCCESS,
     RESET_PASSWORD_FAILED
-  } from '../actions';
-  import { initialAuthState } from '../store'
+} from '../constants';
 
-  export const authReducer = (state = initialAuthState, action) => {
+import { store } from '../..';
+import { initialState } from '../store'
+import type { TAuthActions } from '../actions';
+
+export type RootState = ReturnType<typeof store.getState>;
+export const authReducer = (state = initialState, action: TAuthActions) => {
     switch (action.type) {
 
         case REGISTER: {
