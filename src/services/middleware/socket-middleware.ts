@@ -1,48 +1,42 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
-
 import type { TApplicationActions, AppDispatch, RootState, TWsMiddlewareActions } from '../types';
-
 import { TServerFeedMessage } from '../../utils/interfaces/feed';
-
-import { processOrders } from '../actions/feed'
-
-import {
-  wsConnectionClosed, wsConnectionError, wsConnectionSuccess, wsOnMessage,
-} from '../actions/websockets';
 
 export const socketMiddleware = (wsActions: TWsMiddlewareActions): Middleware => (store: MiddlewareAPI<AppDispatch, RootState>) => (next) => async (action: TApplicationActions) => {
   let ws: WebSocket | undefined;
+  const { onOpen, onError, onMessage, onClosed, onSend, onInit, onClose, processOrders} = wsActions;
 
   switch (action.type) {
-    case wsActions.onInit: {
+    case onInit: {
       const { dispatch } = store;
       const { url, type } = action.payload;
-
+     
       ws = new WebSocket(url);
 
       if (ws) {
 
-        ws.onopen = () => dispatch(wsConnectionSuccess());
-        ws.onerror = (event) => dispatch(wsConnectionError(event.type));
+        ws.onopen = () => dispatch({type: onOpen});
+        ws.onerror = (event) => dispatch({type: onError, payload: event.type});
 
         ws.onmessage = (event) => {
           const { data } = event;
           const parsedData: TServerFeedMessage = JSON.parse(data);
 
-          dispatch(wsOnMessage(parsedData));
-          dispatch(processOrders({ data: parsedData, type }));
+          dispatch({ type: onMessage, payload: parsedData});
+          dispatch({ type: processOrders, payload: { data: parsedData, type }});
+          
         };
 
-        ws.onclose = (event) => dispatch(wsConnectionClosed(event));
+        ws.onclose = (event) => dispatch({ type: onClosed, payload: event });
       }
       break;
     }
-    case wsActions.onSend:
+    case onSend:
       if (ws) {
         ws.send(JSON.stringify(action.payload));
       }
       break;
-    case wsActions.onClose:
+    case onClose:
       if (ws) {
         ws.close();
       }

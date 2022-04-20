@@ -13,6 +13,7 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_ON_MESSAGE,
   WS_SEND_MESSAGE,
+  PROCESS_ORDERS
 } from '../constants';
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -38,4 +39,5 @@ export type TWsMiddlewareActions = {
   readonly onClosed: typeof WS_CONNECTION_CLOSED;
   readonly onSend: typeof WS_SEND_MESSAGE;
   readonly onMessage: typeof WS_ON_MESSAGE;
+  readonly processOrders: typeof PROCESS_ORDERS
 };

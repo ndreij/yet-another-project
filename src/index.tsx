@@ -16,7 +16,8 @@ import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
   WS_ON_MESSAGE,
-  WS_SEND_MESSAGE
+  WS_SEND_MESSAGE,
+  PROCESS_ORDERS
 } from './services/constants'
 import { socketMiddleware } from './services/middleware/socket-middleware'
 
@@ -34,7 +35,8 @@ const wsActions = {
   onClosed: WS_CONNECTION_CLOSED,
   onError: WS_CONNECTION_ERROR,
   onMessage: WS_ON_MESSAGE,
-  onSend: WS_SEND_MESSAGE
+  onSend: WS_SEND_MESSAGE,
+  processOrders: PROCESS_ORDERS
 }
 
 export const store = createStore(rootReducer, composeWithDevTools(

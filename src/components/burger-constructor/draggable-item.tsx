@@ -11,14 +11,6 @@ export const ItemTypes = {
   CARD: 'card',
 }
 
-const style = {
-  border: "1px dashed gray",
-  padding: "0.5rem 1rem",
-  marginBottom: ".5rem",
-  backgroundColor: "white",
-  cursor: "move"
-};
-
 interface DragItem {
   index: number;
   id: string;
@@ -29,7 +21,6 @@ interface draggableItemProps {
   item: cartItem, 
   index: number 
 }
-
 
 export const DraggableItem: FC<draggableItemProps> = ({ item, index, ...props }) => {
   // const ref = useRef<HTMLDivElement>(null);
