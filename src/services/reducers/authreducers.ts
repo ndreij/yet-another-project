@@ -19,11 +19,9 @@ import {
     RESET_PASSWORD_FAILED
 } from '../constants';
 
-import { store } from '../..';
 import { initialState } from '../store'
 import type { TAuthActions } from '../actions';
 
-export type RootState = ReturnType<typeof store.getState>;
 export const authReducer = (state = initialState, action: TAuthActions) => {
     switch (action.type) {
 

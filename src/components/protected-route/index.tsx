@@ -1,13 +1,9 @@
 import { getAuth } from '../../services/actions';
-import { Route, Redirect, useLocation } from 'react-router-dom';
+import { Route, Redirect, useLocation, RouteProps} from 'react-router-dom';
 import { useEffect, useCallback, FC } from 'react';
 import { useSelector, useDispatch } from '../../services/hooks';
 
-interface ProtectedRouteProps {
-    path: string
-}
-
-export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, ...rest }) => {
+export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
     const isAuthLoaded = useSelector((state) => state.auth.isAuthLoaded)
     const dispatch = useDispatch()

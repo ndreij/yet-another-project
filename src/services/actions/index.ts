@@ -1,5 +1,5 @@
 import { baseUrl, checkResponse } from '../../api'
-
+import { AppDispatch, AppThunk, RootState } from '../types';
 import {
     REGISTER,
     REGISTER_FAILED,
@@ -29,18 +29,10 @@ import {
     MOVE_CARD
 } from '../constants';
 
-import { store } from '../..';
-
 import { Item } from "../../utils/types"
 
 import { IIngredient } from '../../utils/interfaces/ingredient';
-
-import { ThunkAction } from 'redux-thunk';
-import { Action, ActionCreator } from 'redux';
-
-export type RootState = ReturnType<typeof store.getState>;
-
-type TApplicationActions = TAuthActions;
+import { IOrderDetails } from 'utils/interfaces/order';
 
 export interface IIRegisterAction {
     readonly type: typeof REGISTER;
@@ -126,12 +118,78 @@ export interface IMoveCardsAction {
     readonly type: typeof MOVE_CARD;
 }
 
+export type TAuthActions =
+    | IIRegisterAction
+    | IRegisterFailedAction
+    | IRegisterSuccessAction
+    | ILoginAction
+    | ILoginFailedAction
+    | ILoginSuccessAction
+    | ILogoutFailedAction
+    | ILogoutSuccessAction
+    | IAuthAction
+    | IAuthFailedAction
+    | IAuthSuccessAction
+    | ISetUserDataAction
+    | IForgotPasswordAction
+    | IForgotPasswordSuccessAction
+    | IForgotPasswordFailedAction
+    | IResetPasswordAction
+    | IResetPasswordSuccessAction
+    | IResetPasswordFailedAction
+    | IGetIngredientsAction
+    | IGetIngredientFailedsAction
+    | IGetIngredientsSuccessAction
+    | ISendOrderAction
+    | ISendOrderFailedAction
+    | ISendOrderSuccessAction
+    | IRemoveItemFromCartAction
+    | IMoveCardsAction
 
-export type AppThunk<TReturn = void> = ActionCreator<
-    ThunkAction<TReturn, RootState, Action, TApplicationActions>
->;
 
-export type AppDispatch = typeof store.dispatch;
+export interface IGetIngredientsAction {
+    readonly type: typeof GET_INGREDIENTS;
+    dataRequest: boolean,
+    dataFailed: boolean,
+}
+
+export interface IGetIngredientsSuccessAction {
+    readonly type: typeof GET_INGREDIENTS_SUCCESS;
+    data: IIngredient[]
+    dataRequest: boolean 
+}
+
+export interface IGetIngredientsFailedAction {
+    readonly type: typeof GET_INGREDIENTS_FAILED;
+    dataFailed: boolean,
+    dataRequest: boolean 
+}
+
+export interface ISendOrderAction {
+    readonly type: typeof SEND_ORDER;
+    orderRequest: boolean,
+    orderFailed: boolean
+}
+
+export interface ISendOrderSuccessAction {
+    readonly type: typeof SEND_ORDER_SUCCESS;
+    order: IOrderDetails
+    orderRequest: boolean,
+}
+
+export interface ISendOrderFailedAction {
+    readonly type: typeof SEND_ORDER_FAILED;
+    orderFailed: boolean,
+    orderRequest: boolean,
+}
+
+export type TAsyncActions =
+| IGetIngredientsAction
+| IGetIngredientsSuccessAction
+| IGetIngredientsFailedAction
+| ISendOrderAction
+| ISendOrderSuccessAction
+| ISendOrderFailedAction
 
 export const register: AppThunk = (nameValue: string, emailValue: string, passValue: string) => {
 
@@ -557,30 +615,3 @@ export const sendOrder: AppThunk = () => {
     }
 }
 
-export type TAuthActions =
-    | IIRegisterAction
-    | IRegisterFailedAction
-    | IRegisterSuccessAction
-    | ILoginAction
-    | ILoginFailedAction
-    | ILoginSuccessAction
-    | ILogoutFailedAction
-    | ILogoutSuccessAction
-    | IAuthAction
-    | IAuthFailedAction
-    | IAuthSuccessAction
-    | ISetUserDataAction
-    | IForgotPasswordAction
-    | IForgotPasswordSuccessAction
-    | IForgotPasswordFailedAction
-    | IResetPasswordAction
-    | IResetPasswordSuccessAction
-    | IResetPasswordFailedAction
-    | IGetIngredientsAction
-    | IGetIngredientFailedsAction
-    | IGetIngredientsSuccessAction
-    | ISendOrderAction
-    | ISendOrderFailedAction
-    | ISendOrderSuccessAction
-    | IRemoveItemFromCartAction
-    | IMoveCardsAction

@@ -8,8 +8,9 @@ import {
 } from '../constants';
 
 import { initialState } from '../store'
+import type { TAsyncActions } from '../actions';
 
-export const asyncReducer = (state = initialState, action) => {
+export const asyncReducer = (state = initialState, action: TAsyncActions) => {
   switch (action.type) {
     case GET_INGREDIENTS: {
       return {

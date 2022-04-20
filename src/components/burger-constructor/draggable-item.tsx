@@ -29,6 +29,7 @@ const moveCard = (dragIndex: number, hoverIndex: number) => {
   const newCards = [...cart]
   newCards.splice(dragIndex, 1)
   newCards.splice(hoverIndex, 0, dragCard)
+  console.log('card moved')
   dispatch({type: MOVE_CARD, payload: newCards})
 }
 

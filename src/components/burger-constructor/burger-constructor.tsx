@@ -51,9 +51,7 @@ function BurgerConstructor() {
       <DropTarget>
       {cart.filter((item: cartItem)  => item.type === 'bun').length === 0 &&
         <div className={styles.constructorelementtop}>
-          <span className="styles.constructor-element__row">
-            <span className="constructor-element__text">Добавьте булку</span>
-          </span>
+            <span>Добавьте булку</span>
         </div>
       }
 
@@ -81,9 +79,7 @@ function BurgerConstructor() {
 
         {cart.filter((item: cartItem) => item.type === 'main' || item.type === "sauce").length === 0 &&
           <div className={styles.constructorelementmiddle}>
-            <span className="styles.constructor-element__row">
-              <span className="constructor-element__text">Добавьте начинку</span>
-            </span>
+              <span>Добавьте начинку</span>
           </div>
         }
 
@@ -104,9 +100,7 @@ function BurgerConstructor() {
 
       {cart.filter((item: cartItem) => item.type === 'bun').length === 0 &&
         <div className={styles.constructorelementbottom}>
-          <span className="styles.constructor-element__row">
-            <span className="constructor-element__text">Добавьте булку</span>
-          </span>
+            <span>Добавьте булку</span>
         </div>
       }
 
