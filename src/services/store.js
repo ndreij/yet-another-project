@@ -28,5 +28,22 @@ export const initialState = {
     isAuthLoaded: false,
     logOutFailed: false,
     isForgotPasswordEmailSent: false,
-    isPasswordReset: false
+    isPasswordReset: false,
+
+    feed: {
+        total: 0,
+        totalToday: 0,
+        orders: [{
+            _id: '',
+            ingredients: [],
+            name: '',
+            status: '',
+            number: 0,
+            createdAt: '',
+            updatedAt: '',
+            _isOwn: false,
+        }],
+    },
+
+    ingredients: []
 };

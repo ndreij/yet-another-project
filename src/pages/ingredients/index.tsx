@@ -12,7 +12,6 @@ export function IngredientsPage() {
     let match = useRouteMatch<MatchParams>("/ingredients/:id");
     const data = useSelector((state) => state.miscList.data)
 
-
     return (
         <>
             {data.length >= 0 && data.map((item: Item) => {

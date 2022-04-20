@@ -33,6 +33,8 @@ import { store } from '../..';
 
 import { Item } from "../../utils/types"
 
+import { IIngredient } from '../../utils/interfaces/ingredient';
+
 import { ThunkAction } from 'redux-thunk';
 import { Action, ActionCreator } from 'redux';
 
@@ -106,6 +108,7 @@ export interface IGetIngredientFailedsAction {
 }
 export interface IGetIngredientsSuccessAction {
     readonly type: typeof GET_INGREDIENTS_SUCCESS;
+    data: IIngredient[]
 }
 export interface ISendOrderAction {
     readonly type: typeof SEND_ORDER;

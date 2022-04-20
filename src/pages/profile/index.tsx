@@ -39,7 +39,7 @@ export function ProfilePage() {
                 <div className={styles.contentwrapper}>
                     <div className={styles.links}>
                         <NavLink to='/profile' className={styles.link} activeClassName={styles.activepane}>Профиль</NavLink>
-                        <NavLink to='/orderhistory' className={styles.link} activeClassName={styles.activepane}>История заказов</NavLink>
+                        <NavLink to='/profile/orders' className={styles.link} activeClassName={styles.activepane}>История заказов</NavLink>
                         <Link to='/' className={styles.link} onClick={() => dispatch(logout())}>Выход</Link>
                         <div className={styles.caption}>
                             В этом разделе вы можете изменить свои персональные данные
