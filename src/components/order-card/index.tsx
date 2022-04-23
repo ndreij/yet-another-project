@@ -6,6 +6,7 @@ import { readableDate } from '../../utils/date';
 import { useSelector } from '../../services/hooks';
 import styles from './order-card.module.css';
 import { IIngredient } from '../../utils/interfaces/ingredient';
+import { cartItem } from 'utils/types';
 
 type OrderCardProps = {
   orderDetails: IOrderDetails,
@@ -20,7 +21,7 @@ export const OrderCard: FC<OrderCardProps> = ({
 }) => {
   const location = useLocation();
   const ingredients = useSelector((state) => state.miscList.data);
-  const [orderIngredients, setOrderIngredients] = useState<IIngredient[]>([]);
+  const [orderIngredients, setOrderIngredients] = useState<cartItem[]>([]);
 
   const orderPrice = useCallback(
     () => (orderIngredients.length > 0 ? orderIngredients?.map((ingredient) => ingredient.price)
@@ -33,8 +34,8 @@ export const OrderCard: FC<OrderCardProps> = ({
 
     const newOrderingredients = orderIngredients
       .map((orderIngredient) => ingredients
-      .find((ingredient: IIngredient) => ingredient._id === orderIngredient))
-      .filter((ingredient) => ingredient !== undefined);
+      .find((ingredient) => ingredient._id === orderIngredient))
+      .filter((ingredient) => ingredient !== undefined) as cartItem[];
 
     setOrderIngredients(newOrderingredients);
 

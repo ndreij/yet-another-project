@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from '../../services/hooks';
 import { UPDATE_CART } from "../../services/constants";
 import { v4 as uuidv4 } from 'uuid'
 import { cartItem } from '../../utils/types'
+import { IIngredient } from 'utils/interfaces/ingredient';
 
 export const DropTarget: FC = ( props ) => {
 
@@ -26,8 +27,8 @@ export const DropTarget: FC = ( props ) => {
 
     const [, drop] = useDrop ({
         accept: "ingredient",
-        drop(ingredient: cartItem) {
-            const newItem = data.filter((item: cartItem) => item._id === ingredient.id)
+        drop(ingredient: IIngredient | cartItem) {
+            const newItem = data.filter((item) => item._id === ingredient.id)
             updateCartWithUUID(newItem)
         }
     })

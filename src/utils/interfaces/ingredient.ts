@@ -1,5 +1,6 @@
 export interface IIngredient {
     _id: string;
+    id: string;
     name: string;
     type: TIngredientTypes;
     proteins?: number;
@@ -8,9 +9,9 @@ export interface IIngredient {
     image: string;
     image_mobile?: string;
     image_large?: string;
-    count?: number
     carbohydrates?: number;
     calories?: number;
+    count?: number;
   }
 
   export interface IUniqueIngredient extends IIngredient {

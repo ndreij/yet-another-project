@@ -12,9 +12,42 @@ import {
     SEND_ORDER_FAILED,
     SEND_ORDER_SUCCESS,
 } from "../constants";
-import { initialState } from '../store'
 
-export const miscReducer = (state = initialState, action) => {
+import { TMiscActions } from '../actions/';
+import { Item, cartItem, TModalState } from '../../utils/types'
+import { IIngredient } from '../../utils/interfaces/ingredient'
+
+export type TMiscState = {
+    orderNumber: number;
+    totalPrice: number;
+    modalState: TModalState;
+    data: Array<cartItem>;
+    cart: Array<cartItem>;
+    dataRequest: boolean;
+    dataFailed: boolean;
+    orderRequest: boolean;
+    orderFailed: boolean;
+  };
+
+export const initialState: TMiscState = {
+    orderNumber: 0,
+    totalPrice: 0,
+    modalState: {
+        visible: false,
+        header: '',
+        content: 'ingredient',
+        item: {}
+    },
+    data: [],
+    cart: [],
+
+    dataRequest: false,
+    dataFailed: false,
+    orderRequest: false,
+    orderFailed: false,
+};
+
+export const miscReducer = (state: TMiscState = initialState, action: TMiscActions): TMiscState => {
     switch (action.type) {
 
         case UPDATE_TOTAL_PRICE: {
@@ -44,7 +77,6 @@ export const miscReducer = (state = initialState, action) => {
                     header: 'Детали ингредиента',
                     item: action.payload
                 }
-
             };
         }
 
