@@ -3,7 +3,7 @@
   "name": "yet-another-project",
   "version": "0.1.0",
   "private": true,
-  "deploy-script": "npm run build && scp -r /Users/goncharovandrey/Desktop/ReactProject/yet-another-project/build/* ndreij@51.250.98.67:/home/ndreij/stellar-frontend",
+  "cypress": "cypress open cache clear",
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.2",
     "@testing-library/jest-dom": "^5.16.1",
@@ -29,7 +29,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy-script": "npm run build && scp -r ./build/* ndreij@51.250.98.67:/home/ndreij/stellar-frontend"
   },
   "eslintConfig": {
     "extends": [
