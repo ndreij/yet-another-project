@@ -28,7 +28,7 @@ export const websocketsReducer = (
       return {
         ...state,
         connected: false,
-        error: null,
+        error: null
       };
     case WS_CONNECTION_SUCCESS:
       return {
