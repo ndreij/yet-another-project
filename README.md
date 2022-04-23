@@ -1,6 +1,6 @@
 # Deployed version
 
-[https://ndreij.students.nomoredomains.work/](https://ndreij.students.nomoredomains.work/).
+[https://ndreij.students.nomoredomains.work/](https://ndreij.students.nomoredomains.work/)
 
 # Getting Started with Create React App
 
