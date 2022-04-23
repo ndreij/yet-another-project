@@ -1,94 +1,110 @@
 import styles from './burger-constructor.module.css'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useDispatch } from 'react-redux'
-import { REMOVE_ITEM_FROM_CART, MOVE_CARD } from '../../services/actions'
-import { useSelector } from 'react-redux'
+import { REMOVE_ITEM_FROM_CART, MOVE_CARD } from '../../services/constants'
+import { useSelector, useDispatch } from '../../services/hooks';
 import { useRef, FC } from 'react'
 import { useDrag, useDrop } from "react-dnd";
 import { cartItem } from '../../utils/types'
+import type { Identifier, XYCoord } from 'dnd-core';
+
+export const ItemTypes = {
+  CARD: 'card',
+}
+
+interface DragItem {
+  index: number;
+  id: string;
+  type: string;
+}
 
 interface draggableItemProps {
   item: cartItem, 
   index: number 
 }
 
-export const DraggableItem: FC<draggableItemProps> = ( props ) => {
-  const id = props.item.uuid
+export const DraggableItem: FC<draggableItemProps> = ({ item, index, ...props }) => {
+  // const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<any>(null)
+  const id = item.id
 
   const dispatch = useDispatch();
-  const ref = useRef<HTMLDivElement | null>(null)
 
   function handleClose(id: string) {
     dispatch({type: REMOVE_ITEM_FROM_CART, payload: id})
   }
-
-const cart = useSelector((state: any) => state.miscList.cart)
-
-const moveCard = (dragIndex: number, hoverIndex: number) => {
-
+  
+  const cart = useSelector((state) => state.miscList.cart)
+  
+  const moveCard = (dragIndex: number, hoverIndex: number) => {
+  
   const dragCard = cart[dragIndex]
   const newCards = [...cart]
   newCards.splice(dragIndex, 1)
   newCards.splice(hoverIndex, 0, dragCard)
   dispatch({type: MOVE_CARD, payload: newCards})
-}
+  }
 
-const [, drop] = useDrop({
-  accept: "card",
-  collect(monitor) {
+  const [{ handlerId }, drop] = useDrop<
+    DragItem,
+    void,
+    { handlerId: Identifier | null }
+  >({
+    accept: ItemTypes.CARD,
+    collect(monitor) {
       return {
-          handlerId: monitor.getHandlerId(),
+        handlerId: monitor.getHandlerId()
       };
-  },
-  hover(item, monitor) {
+    },
+    hover(item: DragItem, monitor) {
       if (!ref.current) {
-          return;
+        return;
       }
-      const dragIndex = props.item.index ? props.item.index : 0;
-      const hoverIndex = props.index;
-
+      const dragIndex = item.index;
+      const hoverIndex = index;
       if (dragIndex === hoverIndex) {
-          return;
+        return;
       }
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
-      const hoverBoundingRect = ref.current.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      let hoverClientY = 0
-      if (clientOffset !== null) {
-        hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
       }
-      if (dragIndex && dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-          return;
+
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
       }
-      if (dragIndex && dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-          return;
-      }
+
       moveCard(dragIndex, hoverIndex);
-      props.item.index = hoverIndex;
-  },
-});
+      item.index = hoverIndex;
+    }
+  });
 
-const [{opacity}, drag, preview] = useDrag({
-  type: "card",
-  collect: (monitor) => ({
-    opacity: monitor.isDragging() ? 0 : 1}),
-  item: () => {
-    return { id }
-  },
-})
+  const [{ isDragging }, drag] = useDrag({
+    type: ItemTypes.CARD,
+    item: () => {
+      return { id, index };
+    },
+    collect: (monitor: any) => ({
+      isDragging: monitor.isDragging()
+    })
+  });
 
-drag(drop(ref));
+  const opacity = isDragging ? 0 : 1;
+  drag(drop(ref));
 
   return (
-    <li ref={preview} className={styles.listitem} style={{ opacity}}>
+    <li ref={ref} className={styles.listitem} style={{ opacity}}>
       <div className={styles.drag} ref={ref}> <DragIcon type="primary" /></div>
       <div className={styles.constructorelement}>
         <ConstructorElement
-          text={props.item.name}
-          price={props.item.price}
-          thumbnail={props.item.image}
-          handleClose={() => handleClose(props.item.uuid)}
+          text={item.name}
+          price={item.price}
+          thumbnail={item.image}
+          handleClose={() => handleClose(item.uuid)}
         />
       </div>
     </li>

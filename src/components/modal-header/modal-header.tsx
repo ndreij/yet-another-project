@@ -14,7 +14,9 @@ export const ModalHeader: FC<modalHeaderProps> = (props) => {
     return (
         <div className={styles.modalheader} >
             <p className="text text_type_main-large">{props.children}</p>
+            <div className={styles.modalheaderclose}> 
             <CloseIcon type="primary" onClick={() => props.onClose()} />
+            </div>
         </div>
     )
 }

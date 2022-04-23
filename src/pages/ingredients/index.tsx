@@ -1,7 +1,7 @@
 import React from 'react'
 import IngredientDetails from '../../components/ingredient-details/ingredient-details'
 import { useRouteMatch } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/hooks';
 import { Item } from '../../utils/types'
 export function IngredientsPage() {
 
@@ -10,8 +10,7 @@ export function IngredientsPage() {
     }
 
     let match = useRouteMatch<MatchParams>("/ingredients/:id");
-    const data = useSelector((state: any) => state.miscList.data)
-
+    const data = useSelector((state) => state.miscList.data)
 
     return (
         <>

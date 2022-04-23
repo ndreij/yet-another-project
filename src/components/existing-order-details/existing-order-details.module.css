@@ -1,0 +1,119 @@
+.orderwrapper {
+    padding-top: 260px;
+    display: flex;
+    justify-content: center;
+}
+
+.ordercontainer {
+    width: 600px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.ordernumber {
+    margin-top: -25px;
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+.ordernumberleft {
+    margin-top: -25px;
+    text-align: left;
+    padding-bottom: 40px;
+    width: 50%;
+}
+
+.orderstatus {
+    composes: text text_type_main-default from global;
+    color: #00CCCC;
+    padding-bottom: 60px;
+}
+
+.orderheader {
+    composes: text text_type_main-medium from global;
+    padding-bottom: 24px;
+}
+
+.orderingredientslist {
+    composes: custom-scroll from global;
+    max-height: 250px;
+    display: flex;
+    flex-direction: column;
+    padding-right: 24px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding-bottom: 40px;
+    padding-right: 48px;
+}
+
+.orderitem {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 16px;
+}
+
+.orderitemleft {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    
+}
+
+.orderitemright {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.ingredientname {
+    composes: text text_type_main-default from global;
+}
+
+.ordertotalcontainer {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    justify-content: space-between;
+    padding-bottom: 40px;
+    padding-top: 24px;
+}
+
+.ordertime {
+    composes: text text_type_main-default from global;
+}
+
+.ordertime p {
+    color: #8585AD
+}
+
+.ordertotal {
+    display: flex;
+    flex-direction: row;
+}
+
+.ingredientpreview {
+    background:
+        linear-gradient(#000 0 0) padding-box,
+        linear-gradient(to right, #801AB3, #4C4CFF) border-box;
+    padding: 10px;
+    border: 2px solid transparent;
+    border-radius: 40px;
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.ingredientpreview img {
+    max-width: 130px;
+    margin-left: -34px;
+}

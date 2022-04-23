@@ -1,0 +1,152 @@
+.orderbox {
+    background: #1C1C21;
+    border-radius: 40px;
+    padding: 24px;
+    margin-bottom: 24px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.ordertime {
+    color: #8585AD;
+    composes: text text_type_main-medium from global;
+}
+
+.feedsubheader {
+    composes: text text_type_main-large from global;
+    padding-bottom: 0;
+}
+
+.feedsubheader p {
+    margin-block-end: 12px;
+}
+
+.superheader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ingredientpreview {
+    background:
+        linear-gradient(#000 0 0) padding-box,
+        linear-gradient(to right, #801AB3, #4C4CFF) border-box;
+    padding: 10px;
+    border: 2px solid transparent;
+    border-radius: 40px;
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    margin-left: -20px;
+    position: relative;
+}
+
+.ingredientpreview img {
+    max-width: 130px;
+    margin-left: -34px;
+}
+
+.orderingredients {
+    display: flex;
+}
+
+.ingredientpreview:first-child {
+    margin-left: 0px;
+}
+
+.ingredientpreview:nth-child(1) {
+    z-index: 10;
+}
+
+.ingredientpreview:nth-child(2) {
+    z-index: 9;
+}
+
+.ingredientpreview:nth-child(3) {
+    z-index: 8;
+}
+
+.ingredientpreview:nth-child(4) {
+    z-index: 7;
+}
+
+.ingredientpreview:nth-child(5) {
+    z-index: 6;
+}
+
+.ingredientpreview:nth-child(6) {
+    z-index: 5;
+}
+
+.ingredientpreviewlast {
+    background:
+        linear-gradient(#000 0 0) padding-box,
+        linear-gradient(to right, #801AB3, #4C4CFF) border-box;
+    padding: 10px;
+    border: 2px solid transparent;
+    border-radius: 40px;
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    margin-left: -20px;
+    position: relative;
+}
+
+.ingredientpreviewlast img {
+    max-width: 130px;
+    margin-left: -34px;
+}
+
+.lastingredientbox {
+    composes: text text_type_main-medium from global;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    left: 0%;
+    top: 0%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.orderprops {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding-top: 24px;
+}
+
+.orderprice {
+    display: flex;
+}
+
+.orderdone {
+    composes: text text_type_main-default from global;
+    color: #00CCCC;
+    padding-top: -100px;
+}
+
+.ordercreated {
+    composes: text text_type_main-default from global;
+    color: #F2F2F3;
+    padding-top: -100px;
+    padding-bottom: 24px;
+}
+
+.ordercanceled {
+    composes: text text_type_main-default from global;
+    color: #a52f2f;
+    padding-top: -100px;
+}
+
+.orderpending {
+    composes: text text_type_main-default from global;
+    color: #F2F2F3;
+    padding-top: -100px;
+}

@@ -19,7 +19,7 @@ function AppHeader() {
                         </NavLink>
                     </li>
                     <li className="pl-5">
-                        <NavLink to='/orders' className={styles.login} activeClassName={styles.activepane}>
+                        <NavLink to='/feed' className={styles.login} activeClassName={styles.activepane}>
                             <ListIcon type="secondary" />
                             <span className="text text_type_main-default pl-4">Лента заказов</span>
                         </NavLink>

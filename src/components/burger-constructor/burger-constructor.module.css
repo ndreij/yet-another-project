@@ -58,6 +58,7 @@
 
 .constructorelement {
     padding-left: 32px;
+    display: flex;
 }
 
 .constructorelementtop {

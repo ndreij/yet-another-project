@@ -2,8 +2,8 @@ import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burg
 import React, { useState, useRef, useEffect } from 'react'
 import styles from '../pages.module.css'
 import { Link, NavLink } from 'react-router-dom'
-import { getUserData, setUserData, logout } from '../../services/actions/authactions'
-import { useDispatch, useSelector } from 'react-redux'
+import { getUserData, setUserData, logout } from '../../services/actions'
+import { useSelector, useDispatch } from '../../services/hooks';
 
 export function ProfilePage() {
 
@@ -15,8 +15,8 @@ export function ProfilePage() {
 
     const dispatch = useDispatch();
 
-    const newName = useSelector((state: any) => state.auth.userName)
-    const newEmail = useSelector((state: any) => state.auth.userEmail)
+    const newName = useSelector((state) => state.auth.userName)
+    const newEmail = useSelector((state) => state.auth.userEmail)
 
     function resetCredentials() {
         setNameValue(newName)
@@ -39,7 +39,7 @@ export function ProfilePage() {
                 <div className={styles.contentwrapper}>
                     <div className={styles.links}>
                         <NavLink to='/profile' className={styles.link} activeClassName={styles.activepane}>Профиль</NavLink>
-                        <NavLink to='/orderhistory' className={styles.link} activeClassName={styles.activepane}>История заказов</NavLink>
+                        <NavLink to='/profile/orders' className={styles.link} activeClassName={styles.activepane}>История заказов</NavLink>
                         <Link to='/' className={styles.link} onClick={() => dispatch(logout())}>Выход</Link>
                         <div className={styles.caption}>
                             В этом разделе вы можете изменить свои персональные данные

@@ -1,23 +1,22 @@
 import styles from './burger-constructor.module.css'
 import { ConstructorElement, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux'
 import { 
   UPDATE_TOTAL_PRICE,
-} from '../../services/actions'
-import { useSelector } from 'react-redux'
+} from '../../services/constants'
+import { useSelector, useDispatch } from '../../services/hooks';
 import { DraggableItem } from './draggable-item'
 import { DropTarget } from '../drop-target/drop-target'
-import { sendOrder } from '../../services/actions/async'
-import { getAuth } from '../../services/actions/authactions';
+import { sendOrder } from '../../services/actions'
+import { getAuth } from '../../services/actions';
 import { Link } from 'react-router-dom'
 import { cartItem } from "../../utils/types"
 
 function BurgerConstructor() {
 
-  const cart = useSelector((state: any) => state.miscList.cart)
+  const cart = useSelector((state) => state.miscList.cart)
 
-  const {totalPrice} = useSelector((state: any) => state.miscList);
+  const {totalPrice} = useSelector((state) => state.miscList);
 
   const dispatch = useDispatch();
 
@@ -30,8 +29,8 @@ function BurgerConstructor() {
     [cart, totalPrice, dispatch]
   );
 
-  const isAuthLoaded = useSelector((state: any) => state.auth.isAuthLoaded)
-  const isLoggedIn = useSelector((state: any) => state.auth.isLoggedIn)
+  const isAuthLoaded = useSelector((state) => state.auth.isAuthLoaded)
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
 
   const init = useCallback(() => {
       dispatch(getAuth());
@@ -52,9 +51,7 @@ function BurgerConstructor() {
       <DropTarget>
       {cart.filter((item: cartItem)  => item.type === 'bun').length === 0 &&
         <div className={styles.constructorelementtop}>
-          <span className="styles.constructor-element__row">
-            <span className="constructor-element__text">Добавьте булку</span>
-          </span>
+            <span>Добавьте булку</span>
         </div>
       }
 
@@ -82,9 +79,7 @@ function BurgerConstructor() {
 
         {cart.filter((item: cartItem) => item.type === 'main' || item.type === "sauce").length === 0 &&
           <div className={styles.constructorelementmiddle}>
-            <span className="styles.constructor-element__row">
-              <span className="constructor-element__text">Добавьте начинку</span>
-            </span>
+              <span>Добавьте начинку</span>
           </div>
         }
 
@@ -105,9 +100,7 @@ function BurgerConstructor() {
 
       {cart.filter((item: cartItem) => item.type === 'bun').length === 0 &&
         <div className={styles.constructorelementbottom}>
-          <span className="styles.constructor-element__row">
-            <span className="constructor-element__text">Добавьте булку</span>
-          </span>
+            <span>Добавьте булку</span>
         </div>
       }
 

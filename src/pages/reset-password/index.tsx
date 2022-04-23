@@ -2,22 +2,22 @@ import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-component
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import styles from '../pages.module.css'
 import { Link, Redirect } from 'react-router-dom'
-import { resetPassword, getCookie, getAuth } from 'services/actions/authactions'
-import { useDispatch, useSelector } from 'react-redux'
+import { resetPassword, getCookie, getAuth } from 'services/actions'
+import { useSelector, useDispatch } from '../../services/hooks';
 
 export function ResetPasswordPage() {
 
     const isEmailSent = getCookie('emailSent')
 
-    const isPasswordReset = useSelector((state: any) => state.auth.isPasswordReset)
+    const isPasswordReset = useSelector((state) => state.auth.isPasswordReset)
 
-    const isLoggedIn = useSelector((state: any) => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
 
     const [passValue, setPassValue] = useState('')
     const [tokenValue, setTokenValue] = useState('')
     const inputRef = useRef(null)
     const dispatch = useDispatch();
-    const isAuthLoaded = useSelector((state: any) => state.auth.isAuthLoaded)
+    const isAuthLoaded = useSelector((state) => state.auth.isAuthLoaded)
 
     const init = useCallback(() => {
         dispatch(getAuth());
