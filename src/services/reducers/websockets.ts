@@ -6,11 +6,12 @@ import {
   WS_ON_MESSAGE
 } from '../constants';
 import { TWsActions } from '../actions/websockets';
+import { TServerFeedMessage } from '../../utils/interfaces/feed'
 
 export type TWebSocketsState = {
   connected: boolean;
   error: string | null;
-  messages: string[];
+  messages: Array<TServerFeedMessage>
 };
 
 const initialState: TWebSocketsState = {
@@ -19,16 +20,14 @@ const initialState: TWebSocketsState = {
   messages: [],
 };
 
-export const websocketsReducer = (
-  state: TWebSocketsState = initialState,
-  action: TWsActions,
-) => {
+export const websocketsReducer = ( state: TWebSocketsState = initialState, action: TWsActions
+): TWebSocketsState => {
   switch (action.type) {
     case WS_CONNECTION_INIT:
       return {
         ...state,
         connected: false,
-        error: null,
+        error: null
       };
     case WS_CONNECTION_SUCCESS:
       return {

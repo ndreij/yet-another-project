@@ -14,7 +14,7 @@ export function IngredientsPage() {
 
     return (
         <>
-            {data.length >= 0 && data.map((item: Item) => {
+            {data.length >= 0 && data.map((item) => {
                 if (item._id === match?.params.id) {
                     return (
                         <IngredientDetails item={item} key={item._id} />

@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { readableDate } from '../../utils/date';
 import { useRouteMatch } from 'react-router-dom'
 import { IOrderDetails } from '../../utils/interfaces/order';
+import { cartItem } from "../../utils/types"
 
 type MatchParams = {
     orderId: string | undefined;
@@ -22,7 +23,7 @@ export const ExistingOrderDetails: FC<ExistingOrderDetailsPropsTypes> = ({orderN
     useWebSocket();  
 
     const ingredients = useSelector((state) => state.miscList.data);
-    const [orderIngredients, setOrderIngredients] = useState<IIngredient[]>([]);
+    const [orderIngredients, setOrderIngredients] = useState<cartItem[]>([]);
 
     const orderPrice = useCallback(
         () => (
@@ -51,13 +52,13 @@ export const ExistingOrderDetails: FC<ExistingOrderDetailsPropsTypes> = ({orderN
  
     useEffect(() => {
         if (orderDetails) {
-            const { ingredients: orderIngredients } = orderDetails as IOrderDetails;
+            const { ingredients: orderIngredients } = orderDetails;
            
             const newOrderingredients = orderIngredients
             .map((orderIngredient) => ingredients
-            .find((ingredient: IIngredient) => ingredient._id === orderIngredient))
-            .filter((ingredient) => ingredient !== undefined);
-    
+            .find((ingredient) => ingredient._id === orderIngredient))
+            .filter((ingredient) => ingredient !== undefined) as cartItem[];
+            
             setOrderIngredients(newOrderingredients);
         }
       }, [ingredients, orderDetails]);
@@ -70,7 +71,7 @@ export const ExistingOrderDetails: FC<ExistingOrderDetailsPropsTypes> = ({orderN
           setOrderIngredients(
             uniqueIngredients
               .map((orderIngredient) => {
-                const ingredient = ingredients.find((ingredient: IIngredient) => ingredient._id === orderIngredient);
+                const ingredient = ingredients.find((ingredient) => ingredient._id === orderIngredient);
     
                 return (ingredient === undefined)
                   ? undefined
@@ -79,7 +80,7 @@ export const ExistingOrderDetails: FC<ExistingOrderDetailsPropsTypes> = ({orderN
                     count: (orderIngredients.filter((ingredientId) => ingredientId === ingredient._id).length),
                   };
               })
-              .filter((ingredient) => ingredient !== undefined),
+              .filter((ingredient) => ingredient !== undefined) as cartItem[],
           );
         }
       }, [ingredients, orderDetails]);

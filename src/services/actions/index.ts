@@ -25,127 +25,49 @@ import {
     SEND_ORDER,
     SEND_ORDER_FAILED,
     SEND_ORDER_SUCCESS,
+    UPDATE_TOTAL_PRICE,
+    SHOW_INGREDIENT_MODAL,
+    HIDE_MODAL,
+    UPDATE_CART,
     REMOVE_ITEM_FROM_CART,
-    MOVE_CARD
+    MOVE_CARD,
 } from '../constants';
 
-import { Item } from "../../utils/types"
+import { Item, cartItem } from "../../utils/types"
 
 import { IIngredient } from '../../utils/interfaces/ingredient';
-import { IOrderDetails } from 'utils/interfaces/order';
+import { IOrderDetails } from '../../utils/interfaces/order';
+import { TModalState } from '../../utils/types'
 
-export interface IIRegisterAction {
-    readonly type: typeof REGISTER;
-}
-export interface IRegisterFailedAction {
-    readonly type: typeof REGISTER_FAILED;
-}
-export interface IRegisterSuccessAction {
-    readonly type: typeof REGISTER_SUCCESS;
-    accessToken: string;
-}
-export interface ILoginAction {
-    readonly type: typeof LOGIN;
-}
-export interface ILoginFailedAction {
-    readonly type: typeof LOGIN_FAILED;
-}
-export interface ILoginSuccessAction {
-    readonly type: typeof LOGIN_SUCCESS;
-}
-export interface ILogoutFailedAction {
-    readonly type: typeof LOGOUT_FAILED;
-}
-export interface ILogoutSuccessAction {
-    readonly type: typeof LOGOUT_SUCCESS;
-}
-export interface IAuthAction {
-    readonly type: typeof AUTH;
-}
-export interface IAuthFailedAction {
-    readonly type: typeof AUTH_FAILED;
-}
-export interface IAuthSuccessAction {
-    readonly type: typeof AUTH_SUCCESS;
-}
-export interface ISetUserDataAction {
-    readonly type: typeof SET_USER_DATA;
-    email: string;
-    name: string;
-}
-export interface IForgotPasswordAction {
-    readonly type: typeof FORGOT_PASSWORD;
-}
-export interface IForgotPasswordSuccessAction {
-    readonly type: typeof FORGOT_PASSWORD_SUCCESS;
-}
-export interface IForgotPasswordFailedAction {
-    readonly type: typeof FORGOT_PASSWORD_FAILED;
-}
-export interface IResetPasswordAction {
-    readonly type: typeof RESET_PASSWORD;
-}
-export interface IResetPasswordSuccessAction {
-    readonly type: typeof RESET_PASSWORD_SUCCESS;
-}
-export interface IResetPasswordFailedAction {
-    readonly type: typeof RESET_PASSWORD_FAILED;
+export interface IUpdateTotalPriceAction {
+    readonly type: typeof UPDATE_TOTAL_PRICE;
+    readonly payload: number
 }
 
-export interface IGetIngredientsAction {
-    readonly type: typeof GET_INGREDIENTS;
+export interface IShowIngredientModalAction {
+    readonly type: typeof SHOW_INGREDIENT_MODAL;
+    readonly payload: TModalState
 }
-export interface IGetIngredientFailedsAction {
-    readonly type: typeof GET_INGREDIENTS_FAILED;
+
+export interface IHideModalAction {
+    readonly type: typeof HIDE_MODAL;
+    readonly modalState: TModalState
 }
-export interface IGetIngredientsSuccessAction {
-    readonly type: typeof GET_INGREDIENTS_SUCCESS;
-    data: IIngredient[]
+
+export interface IUpdateCartAction {
+    readonly type: typeof UPDATE_CART;
+    readonly payload: Array<cartItem>
 }
-export interface ISendOrderAction {
-    readonly type: typeof SEND_ORDER;
-}
-export interface ISendOrderFailedAction {
-    readonly type: typeof SEND_ORDER_FAILED;
-}
-export interface ISendOrderSuccessAction {
-    readonly type: typeof SEND_ORDER_SUCCESS;
-}
+
 export interface IRemoveItemFromCartAction {
     readonly type: typeof REMOVE_ITEM_FROM_CART;
+    readonly payload: string;
 }
-export interface IMoveCardsAction {
+
+export interface IMoveCardAction {
     readonly type: typeof MOVE_CARD;
+    readonly payload: Array<cartItem>
 }
-
-export type TAuthActions =
-    | IIRegisterAction
-    | IRegisterFailedAction
-    | IRegisterSuccessAction
-    | ILoginAction
-    | ILoginFailedAction
-    | ILoginSuccessAction
-    | ILogoutFailedAction
-    | ILogoutSuccessAction
-    | IAuthAction
-    | IAuthFailedAction
-    | IAuthSuccessAction
-    | ISetUserDataAction
-    | IForgotPasswordAction
-    | IForgotPasswordSuccessAction
-    | IForgotPasswordFailedAction
-    | IResetPasswordAction
-    | IResetPasswordSuccessAction
-    | IResetPasswordFailedAction
-    | IGetIngredientsAction
-    | IGetIngredientFailedsAction
-    | IGetIngredientsSuccessAction
-    | ISendOrderAction
-    | ISendOrderFailedAction
-    | ISendOrderSuccessAction
-    | IRemoveItemFromCartAction
-    | IMoveCardsAction
-
 
 export interface IGetIngredientsAction {
     readonly type: typeof GET_INGREDIENTS;
@@ -155,7 +77,7 @@ export interface IGetIngredientsAction {
 
 export interface IGetIngredientsSuccessAction {
     readonly type: typeof GET_INGREDIENTS_SUCCESS;
-    data: IIngredient[]
+    data: cartItem[]
     dataRequest: boolean 
 }
 
@@ -173,8 +95,10 @@ export interface ISendOrderAction {
 
 export interface ISendOrderSuccessAction {
     readonly type: typeof SEND_ORDER_SUCCESS;
-    order: IOrderDetails
-    orderRequest: boolean,
+    payload: {
+        order: IOrderDetails
+        orderRequest: boolean,
+    }
 }
 
 export interface ISendOrderFailedAction {
@@ -183,13 +107,20 @@ export interface ISendOrderFailedAction {
     orderRequest: boolean,
 }
 
-export type TAsyncActions =
+export type TMiscActions =
+| IUpdateTotalPriceAction
+| IShowIngredientModalAction
+| IHideModalAction
+| IUpdateCartAction
+| IRemoveItemFromCartAction
+| IMoveCardAction
 | IGetIngredientsAction
 | IGetIngredientsSuccessAction
 | IGetIngredientsFailedAction
 | ISendOrderAction
 | ISendOrderSuccessAction
 | ISendOrderFailedAction
+
 
 export const register: AppThunk = (nameValue: string, emailValue: string, passValue: string) => {
 
@@ -579,7 +510,7 @@ export const sendOrder: AppThunk = () => {
 
     return function (dispatch: AppDispatch, getState: () => RootState) {
         const cart = getState().miscList.cart
-        const cartIds = cart.map((item: Item) => item._id);
+        const cartIds = cart.map((item) => item._id);
         const wrappedCartIds = { ingredients: Object.values(cartIds) }
 
         const token = 'Bearer ' + getCookie('accessToken')

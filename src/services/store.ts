@@ -8,27 +8,13 @@ export const initialState = {
         content: 'ingredient',
         item: {}
     },
-    data : [],
+    data: [],
     cart: [],
 
     dataRequest: false,
     dataFailed: false,
     orderRequest: false,
     orderFailed: false,
-
-    isLoggedIn: false,
-    userEmail: '',
-    userName: '',
-    accessToken: '',
-    refreshToken: '',
-    isLoggingIn: false,
-    logInFailed: false,
-    isRegistering: false,
-    registrationFailed: false,
-    isAuthLoaded: false,
-    logOutFailed: false,
-    isForgotPasswordEmailSent: false,
-    isPasswordReset: false,
 
     feed: {
         total: 0,
@@ -45,5 +31,8 @@ export const initialState = {
         }],
     },
 
-    ingredients: []
+    ingredients: [],
+    connected: false,
+    error: null,
+    messages: [],
 };

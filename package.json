@@ -3,6 +3,7 @@
   "name": "yet-another-project",
   "version": "0.1.0",
   "private": true,
+  "cypress": "cypress open cache clear",
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.2",
     "@testing-library/jest-dom": "^5.16.1",
@@ -28,7 +29,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy-script": "npm run build && scp -r ./build/* ndreij@51.250.98.67:/home/ndreij/stellar-frontend"
   },
   "eslintConfig": {
     "extends": [
@@ -54,6 +56,10 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/redux-devtools-extension": "^2.13.2",
     "@types/uuid": "^8.3.4",
-    "redux-devtools-extension": "^2.13.9"
+    "cypress": "^9.5.4",
+    "eslint-plugin-cypress": "^2.12.1",
+    "fetch-mock": "^9.11.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-mock-store": "^1.5.4"
   }
 }

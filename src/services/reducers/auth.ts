@@ -19,8 +19,40 @@ import {
     RESET_PASSWORD_FAILED
 } from '../constants';
 
-import { initialState } from '../store'
-import type { TAuthActions } from '../actions';
+// import { initialState } from '../store'
+import type { TAuthActions } from '../actions/auth';
+
+export type TAuthState = {
+    isRegistering: boolean,
+    registrationFailed: boolean,
+    accessToken: string,
+    refreshToken: string,
+    isLoggingIn: boolean,
+    isLoggedIn: boolean,
+    logInFailed: boolean,
+    isAuthLoaded: boolean,
+    logOutFailed: boolean,
+    userEmail: string,
+    userName: string,
+    isForgotPasswordEmailSent: boolean,
+    isPasswordReset: boolean,
+}
+
+export const initialState: TAuthState = {
+    isRegistering: false,
+    registrationFailed: false,
+    accessToken: '',
+    refreshToken: '',
+    isLoggingIn: false,
+    isLoggedIn: false,
+    logInFailed: false,
+    isAuthLoaded: false,
+    logOutFailed: false,
+    userEmail: '',
+    userName: '',
+    isForgotPasswordEmailSent: false,
+    isPasswordReset: false,
+};
 
 export const authReducer = (state = initialState, action: TAuthActions) => {
     switch (action.type) {

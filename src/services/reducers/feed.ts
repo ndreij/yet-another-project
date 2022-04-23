@@ -1,4 +1,4 @@
-import { TFeedActionTypes } from '../actions/feed';
+import { TFeedActions } from '../actions/feed';
 import { IOrderDetails } from '../../utils/interfaces/order';
 import { PROCESS_ORDERS } from '../constants';
 
@@ -14,10 +14,8 @@ const initialState: TFeedState = {
   total: null,
 };
 
-export const feedReducer = (
-  state: TFeedState = initialState,
-  action: TFeedActionTypes,
-) => {
+export const feedReducer = ( state: TFeedState = initialState, action: TFeedActions
+): TFeedState => {
   switch (action.type) {
     case PROCESS_ORDERS: {
       const { data: { orders, total, totalToday }, type } = action.payload;

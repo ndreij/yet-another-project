@@ -23,7 +23,7 @@ function BurgerConstructor() {
   useEffect(() => {
     let total = 0;
     let totalCart = cart;
-    totalCart.map((item: cartItem) => (total += item.price));
+    totalCart.map((item) => (total += item.price));
     dispatch({type: UPDATE_TOTAL_PRICE, payload: total})
   },
     [cart, totalPrice, dispatch]
@@ -55,7 +55,7 @@ function BurgerConstructor() {
         </div>
       }
 
-      {cart.map((item: cartItem, index: number) => {
+      {cart.map((item, index) => {
         if (item.type === "bun" && item.bunType === "top") {
           return (
             <div key={item.uuid} className={styles.constructorelement}>
@@ -84,7 +84,7 @@ function BurgerConstructor() {
         }
 
         <ul className={styles.list}>
-          {cart.map((item: cartItem, index: number) => {
+          {cart.map((item, index) => {
             if (item.type === "main" || item.type === "sauce") {
               return (
                 <DraggableItem item={item}  key={item.uuid} index={index}/>
@@ -104,7 +104,7 @@ function BurgerConstructor() {
         </div>
       }
 
-      {cart.map((item: cartItem, index: number) => {
+      {cart.map((item, index) => {
         if (item.type === "bun" && item.bunType === "bottom") {
           return (
             <div key={item.uuid} className={styles.constructorelement}>
