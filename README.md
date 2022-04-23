@@ -1,4 +1,4 @@
-Stellar Burger is an online store built as a part of React Developer course at [Yandex Practicum]{https://practicum.yandex.ru}.
+Stellar Burger is an online store built as a part of React Developer course at [Yandex Practicum](https://practicum.yandex.ru).
 
 # Deployed version
 
@@ -15,11 +15,11 @@ Stellar Burger is an online store built as a part of React Developer course at [
 
 # Features
 
-- Registration, authorization and password recovery
+- Registration, login and password recovery
 - Assembling an order with drag-and-drop
-- Checkout
 - Viewing order and ingredients details 
-- Viewing order history
+- Checkout
+- Viewing order history with live updates
 
 ## Available Scripts
 
