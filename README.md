@@ -4,11 +4,11 @@ Stellar Burger is an online store built as a part of React Developer course at [
 
 [https://ndreij.students.nomoredomains.work/](https://ndreij.students.nomoredomains.work/)
 
-# Technoogies used
+# Tech stack
 
 - React
-- Typescript
 - Redux
+- Typescript
 - WebSocket
 - Jest
 - Cypress
